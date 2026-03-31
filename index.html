@@ -1,0 +1,75 @@
+<div style="max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #d9d9d9; border-radius: 18px; background: #f8f8f5; box-shadow: 0 8px 24px rgba(0,0,0,0.08); font-family: Arial, sans-serif; color: #2f2f2f;">
+  <h2 style="margin: 0 0 12px 0; font-size: 28px; color: #3f4f2a;">Spendenrechner Kitzrettung</h2>
+  <p style="margin: 0 0 20px 0; line-height: 1.5; color: #555;">
+    Gib die zu befliegende Fläche in Hektar ein und erhalte eine passende Orientierung für deine Unterstützung.
+  </p>
+
+  <label for="hektar" style="display: block; font-weight: bold; margin-bottom: 8px;">Fläche in Hektar</label>
+  <input
+    type="number"
+    id="hektar"
+    step="0.1"
+    min="0"
+    placeholder="z. B. 12,5"
+    style="width: 100%; padding: 14px 16px; border: 1px solid #cfcfcf; border-radius: 12px; font-size: 16px; box-sizing: border-box; margin-bottom: 16px;"
+  >
+
+  <button
+    onclick="berechneSpende()"
+    style="width: 100%; padding: 14px 16px; background: #556b2f; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(85,107,47,0.25);">
+    Spende berechnen
+  </button>
+
+  <div id="ergebnis" style="margin-top: 22px;"></div>
+</div>
+
+<script>
+  function berechneSpende() {
+    const hektarInput = document.getElementById("hektar").value.replace(",", ".");
+    const hektar = parseFloat(hektarInput);
+    const mindestspende = 25;
+
+    const fairProHa = 4;
+    const empfohlenProHa = 6;
+    const starkProHa = 8;
+
+    if (isNaN(hektar) || hektar <= 0) {
+      document.getElementById("ergebnis").innerHTML =
+        "<div style='padding:14px 16px; border-radius:12px; background:#fff3f3; color:#a94442; border:1px solid #f0d0d0;'>Bitte eine gültige Fläche eingeben.</div>";
+      return;
+    }
+
+    function berechne(betragProHa) {
+      let wert = hektar * betragProHa;
+      if (wert < mindestspende) wert = mindestspende;
+      return wert.toFixed(2).replace(".", ",");
+    }
+
+    const fair = berechne(fairProHa);
+    const empfohlen = berechne(empfohlenProHa);
+    const stark = berechne(starkProHa);
+
+    document.getElementById("ergebnis").innerHTML =
+      "<div style='font-size:20px; font-weight:bold; margin-bottom:14px; color:#3f4f2a;'>Empfohlene Spendenhöhe</div>" +
+
+      "<div style='display:flex; gap:10px; align-items:stretch; flex-wrap:wrap;'>" +
+
+        "<div style='flex:1 1 140px; background:#b94a48; color:white; border-radius:14px; padding:16px 12px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.08);'>" +
+          "<div style='font-size:13px; opacity:0.95; margin-bottom:8px;'>Faire Unterstützung</div>" +
+          "<div style='font-size:26px; font-weight:bold;'>" + fair + " €</div>" +
+        "</div>" +
+
+        "<div style='flex:1 1 140px; background:#d6a531; color:white; border-radius:14px; padding:20px 12px; text-align:center; box-shadow:0 8px 18px rgba(0,0,0,0.14); transform:scale(1.04); position:relative; border:2px solid rgba(255,255,255,0.45);'>" +
+          "<div style='position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:#556b2f; color:white; font-size:11px; font-weight:bold; padding:5px 10px; border-radius:999px;'>Empfohlen</div>" +
+          "<div style='font-size:13px; opacity:0.95; margin-bottom:8px; margin-top:6px;'>Empfohlene Unterstützung</div>" +
+          "<div style='font-size:30px; font-weight:bold;'>" + empfohlen + " €</div>" +
+        "</div>" +
+
+        "<div style='flex:1 1 140px; background:#4f7f39; color:white; border-radius:14px; padding:16px 12px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.08);'>" +
+          "<div style='font-size:13px; opacity:0.95; margin-bottom:8px;'>Starke Unterstützung</div>" +
+          "<div style='font-size:26px; font-weight:bold;'>" + stark + " €</div>" +
+        "</div>" +
+
+      "</div>";
+  }
+</script>
