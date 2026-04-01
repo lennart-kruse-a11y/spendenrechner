@@ -1,75 +1,229 @@
-<div style="max-width: 520px; margin: 0 auto; padding: 24px; border: 1px solid #d9d9d9; border-radius: 18px; background: #f8f8f5; box-shadow: 0 8px 24px rgba(0,0,0,0.08); font-family: Arial, sans-serif; color: #2f2f2f;">
-  <h2 style="margin: 0 0 12px 0; font-size: 28px; color: #3f4f2a;">Spendenrechner Kitzrettung</h2>
-  <p style="margin: 0 0 20px 0; line-height: 1.5; color: #555;">
-    Gib die zu befliegende Fläche in Hektar ein und erhalte eine passende Orientierung für deine Unterstützung.
+<div style="max-width: 520px; margin: 40px auto; padding: 20px; border: 1px solid #d9d9d9; border-radius: 16px; background: #f8f8f5; box-shadow: 0 6px 18px rgba(0,0,0,0.08); font-family: Arial, sans-serif; color: #2f2f2f; box-sizing: border-box; text-align: center;">
+  
+  <h2 style="margin: 0 0 10px 0; font-size: 24px; color: #3f4f2a;">Spendenrechner Kitzrettung</h2>
+  
+  <p style="margin: 0 0 16px 0; font-size: 14px; color: #555; line-height: 1.4;">
+    Berechnung auf Basis der Fläche, der Anzahl der Einzelflächen und der Entfernung vom Einsatzort zum Drohnenteam.
   </p>
 
-  <label for="hektar" style="display: block; font-weight: bold; margin-bottom: 8px;">Fläche in Hektar</label>
-  <input
-    type="number"
-    id="hektar"
-    step="0.1"
-    min="0"
-    placeholder="z. B. 12,5"
-    style="width: 100%; padding: 14px 16px; border: 1px solid #cfcfcf; border-radius: 12px; font-size: 16px; box-sizing: border-box; margin-bottom: 16px;"
-  >
+  <div style="display:flex; justify-content:center; margin-bottom:14px;">
+    <div style="width:220px;">
+      <label style="display:block; font-size:13px; font-weight:bold; margin-bottom:4px;">Bundesland</label>
+      <select id="bundesland" style="width:100%; padding:8px; font-size:14px; border-radius:8px; border:1px solid #ccc; box-sizing:border-box;">
+        <option value="bw" selected>Baden-Württemberg</option>
+        <option value="by">Bayern</option>
+        <option value="be">Berlin</option>
+        <option value="bb">Brandenburg</option>
+        <option value="hb">Bremen</option>
+        <option value="hh">Hamburg</option>
+        <option value="he">Hessen</option>
+        <option value="mv">Mecklenburg-Vorpommern</option>
+        <option value="ni">Niedersachsen</option>
+        <option value="nw">Nordrhein-Westfalen</option>
+        <option value="rp">Rheinland-Pfalz</option>
+        <option value="sl">Saarland</option>
+        <option value="sn">Sachsen</option>
+        <option value="st">Sachsen-Anhalt</option>
+        <option value="sh">Schleswig-Holstein</option>
+        <option value="th">Thüringen</option>
+      </select>
+    </div>
+  </div>
 
-  <button
-    onclick="berechneSpende()"
-    style="width: 100%; padding: 14px 16px; background: #556b2f; color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 12px rgba(85,107,47,0.25);">
+  <div style="display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;">
+    
+    <div style="width: 140px;">
+      <label style="display:block; font-size: 13px; font-weight: bold; margin-bottom:4px;">Gesamtfläche (ha)</label>
+      <input type="number" id="hektar" step="0.1" min="0"
+             style="width: 100%; padding: 8px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing:border-box;">
+    </div>
+
+    <div style="width: 140px;">
+      <label style="display:block; font-size: 13px; font-weight: bold; margin-bottom:4px;">Einzelflächen</label>
+      <input type="number" id="flaechen" step="1" min="1"
+             style="width: 100%; padding: 8px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing:border-box;">
+    </div>
+
+    <div style="width: 160px;">
+      <label style="display:block; font-size: 13px; font-weight: bold; margin-bottom:4px;">Entfernung (km)</label>
+      <input type="number" id="kilometer" step="0.1" min="0"
+             style="width: 100%; padding: 8px; font-size: 14px; border-radius: 8px; border: 1px solid #ccc; box-sizing:border-box;">
+    </div>
+
+  </div>
+
+  <button onclick="berechneSpende()"
+          style="width: 100%; padding: 10px; font-size: 14px; background: #556b2f; color: white; border: none; border-radius: 10px; cursor: pointer;">
     Spende berechnen
   </button>
 
-  <div id="ergebnis" style="margin-top: 22px;"></div>
+  <div id="ergebnis" style="margin-top: 18px; text-align: left;"></div>
 </div>
 
 <script>
-  function berechneSpende() {
-    const hektarInput = document.getElementById("hektar").value.replace(",", ".");
-    const hektar = parseFloat(hektarInput);
-    const mindestspende = 25;
+const standardConfig = {
+  preisMinimal: 3,
+  preisEmpfohlen: 5,
+  preisUnterstuetzend: 7,
+  pauschaleProFlaeche: 10,
+  einsatzpauschale: 5,
+  kmPreis: 0.40,
+  fahrzeuge: 2
+};
 
-    const fairProHa = 4;
-    const empfohlenProHa = 6;
-    const starkProHa = 8;
+const config = {
+  bw: { ...standardConfig },
+  by: { ...standardConfig },
+  be: { ...standardConfig },
+  bb: { ...standardConfig },
+  hb: { ...standardConfig },
+  hh: { ...standardConfig },
+  he: { ...standardConfig },
+  mv: { ...standardConfig },
+  ni: { ...standardConfig },
+  nw: { ...standardConfig },
+  rp: { ...standardConfig },
+  sl: { ...standardConfig },
+  sn: { ...standardConfig },
+  st: { ...standardConfig },
+  sh: { ...standardConfig },
+  th: { ...standardConfig }
+};
 
-    if (isNaN(hektar) || hektar <= 0) {
-      document.getElementById("ergebnis").innerHTML =
-        "<div style='padding:14px 16px; border-radius:12px; background:#fff3f3; color:#a94442; border:1px solid #f0d0d0;'>Bitte eine gültige Fläche eingeben.</div>";
-      return;
-    }
+function berechneSpende() {
+  const hektar = parseFloat(document.getElementById("hektar").value.replace(",", "."));
+  const flaechen = parseInt(document.getElementById("flaechen").value, 10);
+  const km = parseFloat(document.getElementById("kilometer").value.replace(",", "."));
+  const bl = document.getElementById("bundesland").value;
+  const cfg = config[bl];
 
-    function berechne(betragProHa) {
-      let wert = hektar * betragProHa;
-      if (wert < mindestspende) wert = mindestspende;
-      return wert.toFixed(2).replace(".", ",");
-    }
-
-    const fair = berechne(fairProHa);
-    const empfohlen = berechne(empfohlenProHa);
-    const stark = berechne(starkProHa);
-
+  if (isNaN(hektar) || hektar <= 0) {
     document.getElementById("ergebnis").innerHTML =
-      "<div style='font-size:20px; font-weight:bold; margin-bottom:14px; color:#3f4f2a;'>Empfohlene Spendenhöhe</div>" +
-
-      "<div style='display:flex; gap:10px; align-items:stretch; flex-wrap:wrap;'>" +
-
-        "<div style='flex:1 1 140px; background:#b94a48; color:white; border-radius:14px; padding:16px 12px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.08);'>" +
-          "<div style='font-size:13px; opacity:0.95; margin-bottom:8px;'>Faire Unterstützung</div>" +
-          "<div style='font-size:26px; font-weight:bold;'>" + fair + " €</div>" +
-        "</div>" +
-
-        "<div style='flex:1 1 140px; background:#d6a531; color:white; border-radius:14px; padding:20px 12px; text-align:center; box-shadow:0 8px 18px rgba(0,0,0,0.14); transform:scale(1.04); position:relative; border:2px solid rgba(255,255,255,0.45);'>" +
-          "<div style='position:absolute; top:-10px; left:50%; transform:translateX(-50%); background:#556b2f; color:white; font-size:11px; font-weight:bold; padding:5px 10px; border-radius:999px;'>Empfohlen</div>" +
-          "<div style='font-size:13px; opacity:0.95; margin-bottom:8px; margin-top:6px;'>Empfohlene Unterstützung</div>" +
-          "<div style='font-size:30px; font-weight:bold;'>" + empfohlen + " €</div>" +
-        "</div>" +
-
-        "<div style='flex:1 1 140px; background:#4f7f39; color:white; border-radius:14px; padding:16px 12px; text-align:center; box-shadow:0 4px 12px rgba(0,0,0,0.08);'>" +
-          "<div style='font-size:13px; opacity:0.95; margin-bottom:8px;'>Starke Unterstützung</div>" +
-          "<div style='font-size:26px; font-weight:bold;'>" + stark + " €</div>" +
-        "</div>" +
-
-      "</div>";
+      "<div style='padding:12px 14px; border-radius:10px; background:#fff3f3; color:#a94442; border:1px solid #f0d0d0;'>Bitte eine gültige Gesamtfläche eingeben.</div>";
+    return;
   }
+
+  if (isNaN(flaechen) || flaechen <= 0) {
+    document.getElementById("ergebnis").innerHTML =
+      "<div style='padding:12px 14px; border-radius:10px; background:#fff3f3; color:#a94442; border:1px solid #f0d0d0;'>Bitte eine gültige Anzahl an Einzelflächen eingeben.</div>";
+    return;
+  }
+
+  if (isNaN(km) || km < 0) {
+    document.getElementById("ergebnis").innerHTML =
+      "<div style='padding:12px 14px; border-radius:10px; background:#fff3f3; color:#a94442; border:1px solid #f0d0d0;'>Bitte eine gültige Entfernung eingeben.</div>";
+    return;
+  }
+
+  function berechne(preisProHektar) {
+    const kostenFlaeche = hektar * preisProHektar;
+    const kostenFlaechen = flaechen * cfg.pauschaleProFlaeche;
+    const kostenFahrt = km * 2 * cfg.kmPreis * cfg.fahrzeuge;
+    const pilotVorOrt = cfg.einsatzpauschale + kostenFahrt;
+    const verein = kostenFlaeche + kostenFlaechen;
+
+    return {
+      gesamt: kostenFlaeche + kostenFlaechen + cfg.einsatzpauschale + kostenFahrt,
+      flaeche: kostenFlaeche,
+      flaechen: kostenFlaechen,
+      fahrt: kostenFahrt,
+      pilotVorOrt: pilotVorOrt,
+      verein: verein
+    };
+  }
+
+  function euro(x) {
+    return x.toFixed(2).replace(".", ",") + " €";
+  }
+
+  function zahl(v) {
+    return v.toFixed(1).replace(".", ",");
+  }
+
+  const minimal = berechne(cfg.preisMinimal);
+  const empfohlen = berechne(cfg.preisEmpfohlen);
+  const unterstuetzend = berechne(cfg.preisUnterstuetzend);
+
+  document.getElementById("ergebnis").innerHTML =
+    "<div style='font-size:18px; font-weight:bold; margin-bottom:10px; color:#3f4f2a;'>Spendenempfehlung</div>" +
+
+    "<div style='display:flex; gap:8px; margin-bottom:14px;'>" +
+
+      "<div style='flex:1; background:#b94a48; color:white; border-radius:10px; padding:12px; text-align:center;'>" +
+        "<div style='font-size:12px;'>Minimal kostendeckend</div>" +
+        "<div style='font-size:18px; font-weight:bold;'>" + euro(minimal.gesamt) + "</div>" +
+      "</div>" +
+
+      "<div style='flex:1; background:#d6a531; color:white; border-radius:10px; padding:14px; text-align:center; transform:scale(1.05);'>" +
+        "<div style='font-size:12px;'>Empfohlen</div>" +
+        "<div style='font-size:22px; font-weight:bold;'>" + euro(empfohlen.gesamt) + "</div>" +
+      "</div>" +
+
+      "<div style='flex:1; background:#4f7f39; color:white; border-radius:10px; padding:12px; text-align:center;'>" +
+        "<div style='font-size:12px;'>Unterstützend</div>" +
+        "<div style='font-size:18px; font-weight:bold;'>" + euro(unterstuetzend.gesamt) + "</div>" +
+      "</div>" +
+
+    "</div>" +
+
+    "<div style='font-size:13px; background:white; border:1px solid #ddd; border-radius:12px; padding:12px; line-height:1.6; margin-bottom:12px;'>" +
+      "<div style='font-weight:bold; margin-bottom:6px;'>Zusammensetzung (empfohlen)</div>" +
+
+      "<div style='display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:4px 0;'>" +
+        "<span>" + zahl(hektar) + " ha × " + euro(cfg.preisEmpfohlen).replace(' €',' €') + "</span>" +
+        "<span>" + euro(empfohlen.flaeche) + "</span>" +
+      "</div>" +
+
+      "<div style='display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:4px 0;'>" +
+        "<span>" + flaechen + " Flächen × " + euro(cfg.pauschaleProFlaeche).replace(' €',' €') + "</span>" +
+        "<span>" + euro(empfohlen.flaechen) + "</span>" +
+      "</div>" +
+
+      "<div style='display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:4px 0;'>" +
+        "<span>Einsatzpauschale</span>" +
+        "<span>" + euro(cfg.einsatzpauschale) + "</span>" +
+      "</div>" +
+
+      "<div style='display:flex; justify-content:space-between; padding:4px 0;'>" +
+        "<span>" + zahl(km * 2) + " km × " + euro(cfg.kmPreis).replace(' €',' €') + " × " + cfg.fahrzeuge + " Fahrzeuge</span>" +
+        "<span>" + euro(empfohlen.fahrt) + "</span>" +
+      "</div>" +
+    "</div>" +
+
+    "<div style='font-size:13px; background:#fff; border:1px solid #ddd; border-radius:12px; padding:12px; line-height:1.6;'>" +
+      "<div style='font-weight:bold; margin-bottom:6px;'>Zahlungsaufteilung (empfohlen)</div>" +
+
+      "<div style='margin-bottom:10px; padding:10px; background:#f7f3ea; border-radius:10px;'>" +
+        "<div style='font-weight:bold; color:#3f4f2a; margin-bottom:4px;'>Direkt an den Piloten vor Ort zahlen</div>" +
+        "<div style='display:flex; justify-content:space-between; border-bottom:1px solid #e8e0cf; padding:4px 0;'>" +
+          "<span>Einsatzpauschale</span>" +
+          "<span>" + euro(cfg.einsatzpauschale) + "</span>" +
+        "</div>" +
+        "<div style='display:flex; justify-content:space-between; padding:4px 0;'>" +
+          "<span>Kilometerpauschale</span>" +
+          "<span>" + euro(empfohlen.fahrt) + "</span>" +
+        "</div>" +
+        "<div style='display:flex; justify-content:space-between; padding:6px 0 0 0; font-weight:bold;'>" +
+          "<span>Summe Pilot vor Ort</span>" +
+          "<span>" + euro(empfohlen.pilotVorOrt) + "</span>" +
+        "</div>" +
+      "</div>" +
+
+      "<div style='padding:10px; background:#eef4ea; border-radius:10px;'>" +
+        "<div style='font-weight:bold; color:#3f4f2a; margin-bottom:4px;'>Auf das Spendenkonto des Vereins überweisen</div>" +
+        "<div style='display:flex; justify-content:space-between; border-bottom:1px solid #dbe7d3; padding:4px 0;'>" +
+          "<span>Flächenkosten</span>" +
+          "<span>" + euro(empfohlen.flaeche) + "</span>" +
+        "</div>" +
+        "<div style='display:flex; justify-content:space-between; padding:4px 0;'>" +
+          "<span>Einzelflächenpauschalen</span>" +
+          "<span>" + euro(empfohlen.flaechen) + "</span>" +
+        "</div>" +
+        "<div style='display:flex; justify-content:space-between; padding:6px 0 0 0; font-weight:bold;'>" +
+          "<span>Summe Verein</span>" +
+          "<span>" + euro(empfohlen.verein) + "</span>" +
+        "</div>" +
+      "</div>" +
+    "</div>";
+}
 </script>
