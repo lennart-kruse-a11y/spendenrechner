@@ -1,368 +1,660 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kitzrettung Spendenrechner</title>
+  <style>
+    :root {
+      --color-background-primary: #ffffff;
+      --color-background-secondary: #f7f8f5;
+      --color-text-primary: #1f2937;
+      --color-text-secondary: #6b7280;
+      --color-border-secondary: #d1d5db;
+      --color-border-tertiary: #e5e7eb;
+      --border-radius-md: 12px;
+      --border-radius-lg: 18px;
+    }
 
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; font-weight: 400; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
 
-.wrap { padding: 0 0 2.5rem; }
+    body {
+      background: #eef2e8;
+      color: var(--color-text-primary);
+      padding: 24px;
+    }
 
-.hero {
-  text-align: center; background: #27500A;
-  padding: 2.25rem 2rem 2rem; position: relative; overflow: hidden;
-}
-.hero-pattern {
-  position: absolute; inset: 0; opacity: 0.05;
-  background-image:
-    repeating-linear-gradient(45deg, #EAF3DE 0px, #EAF3DE 1px, transparent 1px, transparent 12px),
-    repeating-linear-gradient(-45deg, #EAF3DE 0px, #EAF3DE 1px, transparent 1px, transparent 12px);
-}
-.hero-inner { position: relative; }
-.hero-tag { display: inline-block; background: #3B6D11; color: #C0DD97; font-size: 11px; padding: 4px 12px; border-radius: 99px; margin-bottom: 12px; letter-spacing: 0.04em; }
-.hero-title { font-size: 22px; font-weight: 500; color: #EAF3DE; line-height: 1.3; }
-.hero-sub { font-size: 14px; color: #97C459; margin-top: 8px; line-height: 1.6; }
-.hero-divider { width: 32px; height: 2px; background: #639922; margin: 14px auto 0; border-radius: 2px; }
+    .page {
+      max-width: 552px;
+      margin: 0 auto;
+    }
 
-.form-wrap { padding: 1.75rem 0 0; }
-.steps { display: flex; flex-direction: column; }
-.step-row {
-  display: flex; gap: 16px; align-items: flex-start;
-  padding: 1.1rem 0; border-bottom: 0.5px solid var(--color-border-tertiary);
-}
-.step-row:last-child { border-bottom: none; }
-.step-num {
-  width: 26px; height: 26px; border-radius: 50%;
-  background: #EAF3DE; color: #3B6D11; font-size: 12px; font-weight: 500;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 5px; border: 1.5px solid #C0DD97;
-}
-.step-body { flex: 1; }
-.step-label { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 8px; }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .card {
+      background: var(--color-background-primary);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(39, 80, 10, 0.08);
+    }
 
-input[type=number], select {
-  width: 100%; height: 40px; padding: 0 12px;
-  border: 0.5px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-md);
-  background: var(--color-background-primary);
-  color: var(--color-text-primary);
-  font-size: 14px; font-family: Arial, Helvetica, sans-serif;
-  outline: none;
-}
-input[type=number]:focus, select:focus { border-color: #639922; box-shadow: 0 0 0 3px rgba(59,109,17,0.12); }
+    .wrap {
+      width: 100%;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 0 2.5rem;
+    }
 
-.calc-btn {
-  width: 100%; height: 46px; background: #27500A;
-  border-radius: var(--border-radius-md); margin-top: 1.5rem;
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  cursor: pointer; transition: background 0.15s; user-select: none;
-}
-.calc-btn:active { transform: scale(0.99); }
-.calc-btn-text { font-size: 15px; font-weight: 500; color: #EAF3DE; font-family: Arial, Helvetica, sans-serif; letter-spacing: 0.01em; }
-.calc-btn-arrow { width: 20px; height: 20px; border-radius: 50%; background: rgba(234,243,222,0.15); display: flex; align-items: center; justify-content: center; color: #EAF3DE; font-size: 13px; }
+    .hero {
+      text-align: center;
+      background: #27500A;
+      padding: 2.25rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+    }
 
-.error { font-size: 13px; color: #A32D2D; margin-top: 10px; display: none; }
-.error.on { display: block; }
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      opacity: 0.05;
+      background-image:
+        repeating-linear-gradient(45deg, #EAF3DE 0px, #EAF3DE 1px, transparent 1px, transparent 12px),
+        repeating-linear-gradient(-45deg, #EAF3DE 0px, #EAF3DE 1px, transparent 1px, transparent 12px);
+    }
 
-.results-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.06em; text-transform: uppercase; margin: 2rem 0 0.75rem; display: none; }
-.results-label.on { display: block; }
+    .hero-inner { position: relative; }
+    .hero-tag {
+      display: inline-block;
+      background: #3B6D11;
+      color: #C0DD97;
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+    }
+    .hero-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #EAF3DE;
+      line-height: 1.3;
+    }
+    .hero-sub {
+      font-size: 14px;
+      color: #97C459;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+    .hero-divider {
+      width: 32px;
+      height: 2px;
+      background: #639922;
+      margin: 14px auto 0;
+      border-radius: 2px;
+    }
 
-.results { display: none; flex-direction: column; gap: 10px; }
-.results.on { display: flex; }
+    .form-wrap {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 1.5rem 1.25rem 0;
+      margin: -20px 1rem 0;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      position: relative;
+    }
+    .steps { display: flex; flex-direction: column; }
+    .step-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 1.1rem 0;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+    }
+    .step-row:last-child { border-bottom: none; }
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #EAF3DE;
+      color: #3B6D11;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 5px;
+      border: 1.5px solid #C0DD97;
+    }
+    .step-body { flex: 1; }
+    .step-label {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      margin-bottom: 8px;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
 
-.stufe-card { border-radius: var(--border-radius-lg); border: 1px solid; overflow: hidden; }
-.stufe-fair { border-color: #F09595; }
-.stufe-fair .s-hd { background: #FCEBEB; }
-.stufe-fair .s-badge { background: #F7C1C1; color: #791F1F; }
-.stufe-fair .s-ha { color: #A32D2D; }
-.stufe-fair .s-total { color: #A32D2D; font-size: 20px; }
-.stufe-empf { border-color: #EF9F27; }
-.stufe-empf .s-hd { background: #FAEEDA; }
-.stufe-empf .s-badge { background: #FAC775; color: #633806; }
-.stufe-empf .s-ha { color: #854F0B; }
-.stufe-empf .s-total { color: #854F0B; font-size: 20px; }
-.stufe-unts { border-color: #3B6D11; border-width: 2px; }
-.stufe-unts .s-hd { background: #27500A; padding: 1.1rem 1.25rem; }
-.stufe-unts .s-badge { background: #EAF3DE; color: #27500A; }
-.stufe-unts .s-ha { color: #97C459; }
-.stufe-unts .s-total { color: #EAF3DE; font-size: 26px; }
-.rec-pill { font-size: 10px; background: #639922; color: #EAF3DE; padding: 2px 8px; border-radius: 99px; margin-left: 6px; }
+    input[type=number],
+    select {
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      border: 1px solid #C8D6B3;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #1a1a1a;
+      font-size: 14px;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+    }
 
-.s-hd { display: flex; align-items: center; justify-content: space-between; padding: 0.85rem 1.25rem; }
-.s-hd-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.s-badge { font-size: 11px; font-weight: 400; padding: 3px 10px; border-radius: 99px; }
-.s-ha { font-size: 12px; font-weight: 400; }
-.s-total { font-weight: 500; }
+    input[type=number]:focus,
+    select:focus {
+      border-color: #639922;
+      box-shadow: 0 0 0 3px rgba(99,153,34,0.15);
+    }
 
-.s-body { background: var(--color-background-primary); padding: 0.75rem 1.25rem; border-top: 0.5px solid var(--color-border-tertiary); display: grid; grid-template-columns: 1fr 1fr; }
-.pay-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; }
-.pay-row:first-child { padding-right: 16px; border-right: 0.5px solid var(--color-border-tertiary); }
-.pay-row:last-child { padding-left: 16px; }
-.pay-icon { width: 28px; height: 28px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; margin-top: 1px; }
-.pay-icon.bar { background: #FAEEDA; }
-.pay-icon.bank { background: #E6F1FB; }
-.pay-name { font-size: 12px; font-weight: 500; color: var(--color-text-primary); }
-.pay-desc { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.5; }
-.pay-amount { font-size: 16px; font-weight: 500; margin-top: 4px; }
-.pay-amount.bar-color { color: #854F0B; }
-.pay-amount.bank-color { color: #185FA5; }
+    .calc-btn {
+      width: calc(100% - 2.5rem);
+      margin: 1.5rem 1.25rem 0;
+      height: 46px;
+      background: #27500A;
+      border-radius: var(--border-radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.15s;
+      user-select: none;
+    }
+    .calc-btn:active { transform: scale(0.99); }
+    .calc-btn-text {
+      font-size: 15px;
+      font-weight: 600;
+      color: #EAF3DE;
+      letter-spacing: 0.01em;
+    }
+    .calc-btn-arrow {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(234,243,222,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #EAF3DE;
+      font-size: 13px;
+    }
 
-.bdown { background: var(--color-background-secondary); border-top: 0.5px solid var(--color-border-tertiary); padding: 8px 1.25rem; display: flex; flex-direction: column; gap: 3px; }
-.bd { font-size: 11px; color: var(--color-text-secondary); }
-.bd span { color: var(--color-text-primary); }
+    .error {
+      font-size: 13px;
+      color: #A32D2D;
+      margin: 10px 1.25rem 0;
+      display: none;
+    }
+    .error.on { display: block; }
 
-@media (max-width: 500px) {
-  .field-row { grid-template-columns: 1fr; }
-  .s-body { grid-template-columns: 1fr; }
-  .pay-row:first-child { padding-right: 0; border-right: none; border-bottom: 0.5px solid var(--color-border-tertiary); }
-  .pay-row:last-child { padding-left: 0; }
-}
-</style>
+    .results-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 2rem 1.25rem 0.75rem;
+      display: none;
+    }
+    .results-label.on { display: block; }
 
-<div class="wrap">
-  <div class="hero">
-    <div class="hero-pattern"></div>
-    <div class="hero-inner">
-      <div class="hero-tag">🦌 Kitzrettung per Drohne</div>
-      <div class="hero-title">Spendenrechner</div>
-      <div class="hero-sub">Berechne in Sekunden, was ein fairer<br>Beitrag für einen Einsatz ist.</div>
-      <div class="hero-divider"></div>
+    .results {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 1.25rem;
+    }
+    .results.on { display: flex; }
+
+    .stufe-card {
+      border-radius: var(--border-radius-lg);
+      border: 1px solid;
+      overflow: hidden;
+      background: #fff;
+    }
+    .stufe-basis { border-color: #F09595; }
+    .stufe-basis .s-hd { background: #FCEBEB; }
+    .stufe-basis .s-badge { background: #F7C1C1; color: #791F1F; }
+    .stufe-basis .s-ha { color: #A32D2D; }
+    .stufe-basis .s-total { color: #A32D2D; font-size: 20px; }
+
+    .stufe-empf { border-color: #EF9F27; }
+    .stufe-empf .s-hd { background: #FAEEDA; }
+    .stufe-empf .s-badge { background: #FAC775; color: #633806; }
+    .stufe-empf .s-ha { color: #854F0B; }
+    .stufe-empf .s-total { color: #854F0B; font-size: 20px; }
+
+    .stufe-unts { border-color: #3B6D11; border-width: 2px; }
+    .stufe-unts .s-hd { background: #27500A; padding: 1.1rem 1.25rem; }
+    .stufe-unts .s-badge { background: #EAF3DE; color: #27500A; }
+    .stufe-unts .s-ha { color: #97C459; }
+    .stufe-unts .s-total { color: #EAF3DE; font-size: 26px; }
+
+    .rec-pill {
+      font-size: 10px;
+      background: #639922;
+      color: #EAF3DE;
+      padding: 2px 8px;
+      border-radius: 99px;
+      margin-left: 6px;
+    }
+
+    .s-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.25rem;
+    }
+    .s-hd-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .s-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 99px;
+    }
+    .s-ha {
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .s-total { font-weight: 700; }
+
+    .s-body {
+      background: var(--color-background-primary);
+      padding: 0.75rem 1.25rem;
+      border-top: 0.5px solid var(--color-border-tertiary);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .pay-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+    }
+    .pay-row:first-child {
+      padding-right: 16px;
+      border-right: 0.5px solid var(--color-border-tertiary);
+    }
+    .pay-row:last-child { padding-left: 16px; }
+    .pay-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--border-radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .pay-icon.bar { background: #FAEEDA; }
+    .pay-icon.bank { background: #E6F1FB; }
+    .pay-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    .pay-desc {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      margin-top: 2px;
+      line-height: 1.5;
+    }
+    .pay-amount {
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 4px;
+    }
+    .pay-amount.bar-color { color: #854F0B; }
+    .pay-amount.bank-color { color: #185FA5; }
+
+    .bdown {
+      background: var(--color-background-secondary);
+      border-top: 0.5px solid var(--color-border-tertiary);
+      padding: 8px 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .bd {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+    }
+    .bd span { color: var(--color-text-primary); }
+
+    @media (max-width: 500px) {
+      body { padding: 12px; }
+      .page { max-width: 100%; }
+      .wrap {
+        max-width: 100%;
+        padding: 0 0 2rem;
+      }
+      .form-wrap {
+        margin: -16px 0.75rem 0;
+        padding: 1.25rem 1rem 0;
+      }
+      .field-row { grid-template-columns: 1fr; }
+      .s-body { grid-template-columns: 1fr; }
+      .pay-row:first-child {
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 0.5px solid var(--color-border-tertiary);
+      }
+      .pay-row:last-child { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="card">
+      <div class="wrap">
+        <div class="hero">
+          <div class="hero-pattern"></div>
+          <div class="hero-inner">
+            <div class="hero-tag">🦌 Kitzrettung per Drohne</div>
+            <div class="hero-title">Spendenrechner</div>
+            <div class="hero-sub">Berechne in Sekunden, was ein sinnvoller<br>Beitrag für einen Einsatz ist.</div>
+            <div class="hero-divider"></div>
+          </div>
+        </div>
+
+        <div class="form-wrap">
+          <div class="steps">
+            <div class="step-row">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-label">Wo findet der Einsatz statt?</div>
+                <select id="bundesland">
+                  <option value="" disabled selected>Bundesland wählen …</option>
+                  <option value="BW">Baden-Württemberg</option>
+                  <option value="BY">Bayern</option>
+                  <option value="BE">Berlin</option>
+                  <option value="BB">Brandenburg</option>
+                  <option value="HB">Bremen</option>
+                  <option value="HH">Hamburg</option>
+                  <option value="HE">Hessen</option>
+                  <option value="MV">Mecklenburg-Vorpommern</option>
+                  <option value="NI">Niedersachsen</option>
+                  <option value="NW">Nordrhein-Westfalen</option>
+                  <option value="RP">Rheinland-Pfalz</option>
+                  <option value="SL">Saarland</option>
+                  <option value="SN">Sachsen</option>
+                  <option value="ST">Sachsen-Anhalt</option>
+                  <option value="SH">Schleswig-Holstein</option>
+                  <option value="TH">Thüringen</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="step-row">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-label">Wie groß ist die Fläche?</div>
+                <div class="field-row">
+                  <input type="number" id="flaeche" min="0.1" step="0.1" placeholder="Gesamtfläche in ha" />
+                  <input type="number" id="teilflaechen" min="1" step="1" placeholder="Anzahl Einzelflächen" />
+                </div>
+              </div>
+            </div>
+
+            <div class="step-row">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-label">Wie weit ist das Drohnenteam entfernt?</div>
+                <input type="number" id="entfernung" min="0" step="1" placeholder="Entfernung in km (einfache Strecke)" style="width:100%" />
+              </div>
+            </div>
+          </div>
+
+          <div class="error" id="error">Bitte alle Felder ausfüllen und gültige Werte eingeben.</div>
+
+          <div class="calc-btn" id="calc-btn" onclick="berechnen()" onmouseenter="this.style.background='#639922'" onmouseleave="this.style.background='#27500A'">
+            <span class="calc-btn-text">Spende berechnen</span>
+            <div class="calc-btn-arrow">→</div>
+          </div>
+
+          <div class="results-label" id="results-label">Deine Spendenoptionen</div>
+
+          <div class="results" id="results">
+            <div class="stufe-card stufe-basis">
+              <div class="s-hd">
+                <div class="s-hd-left">
+                  <div class="s-badge">Kostendeckend</div>
+                  <div class="s-ha" id="basis-ha"></div>
+                </div>
+                <div class="s-total" id="basis-total"></div>
+              </div>
+              <div class="s-body">
+                <div class="pay-row">
+                  <div class="pay-icon bar">💵</div>
+                  <div>
+                    <div class="pay-name">Bar an den Piloten</div>
+                    <div class="pay-desc" id="basis-bar-desc"></div>
+                    <div class="pay-amount bar-color" id="basis-bar"></div>
+                  </div>
+                </div>
+                <div class="pay-row">
+                  <div class="pay-icon bank">🏦</div>
+                  <div>
+                    <div class="pay-name">Überweisung an den Verein</div>
+                    <div class="pay-desc" id="basis-bank-desc"></div>
+                    <div class="pay-amount bank-color" id="basis-bank"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="bdown">
+                <div class="bd" id="basis-bd-fl"></div>
+                <div class="bd" id="basis-bd-tf"></div>
+                <div class="bd" id="basis-bd-km"></div>
+              </div>
+            </div>
+
+            <div class="stufe-card stufe-empf">
+              <div class="s-hd">
+                <div class="s-hd-left">
+                  <div class="s-badge">Empfohlen</div>
+                  <div class="s-ha" id="empf-ha"></div>
+                </div>
+                <div class="s-total" id="empf-total"></div>
+              </div>
+              <div class="s-body">
+                <div class="pay-row">
+                  <div class="pay-icon bar">💵</div>
+                  <div>
+                    <div class="pay-name">Bar an den Piloten</div>
+                    <div class="pay-desc" id="empf-bar-desc"></div>
+                    <div class="pay-amount bar-color" id="empf-bar"></div>
+                  </div>
+                </div>
+                <div class="pay-row">
+                  <div class="pay-icon bank">🏦</div>
+                  <div>
+                    <div class="pay-name">Überweisung an den Verein</div>
+                    <div class="pay-desc" id="empf-bank-desc"></div>
+                    <div class="pay-amount bank-color" id="empf-bank"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="bdown">
+                <div class="bd" id="empf-bd-fl"></div>
+                <div class="bd" id="empf-bd-tf"></div>
+                <div class="bd" id="empf-bd-km"></div>
+              </div>
+            </div>
+
+            <div class="stufe-card stufe-unts">
+              <div class="s-hd">
+                <div class="s-hd-left">
+                  <div class="s-badge">Unterstützend</div>
+                  <span class="rec-pill">empfohlen</span>
+                  <div class="s-ha" id="unts-ha"></div>
+                </div>
+                <div class="s-total" id="unts-total"></div>
+              </div>
+              <div class="s-body">
+                <div class="pay-row">
+                  <div class="pay-icon bar">💵</div>
+                  <div>
+                    <div class="pay-name">Bar an den Piloten</div>
+                    <div class="pay-desc" id="unts-bar-desc"></div>
+                    <div class="pay-amount bar-color" id="unts-bar"></div>
+                  </div>
+                </div>
+                <div class="pay-row">
+                  <div class="pay-icon bank">🏦</div>
+                  <div>
+                    <div class="pay-name">Überweisung an den Verein</div>
+                    <div class="pay-desc" id="unts-bank-desc"></div>
+                    <div class="pay-amount bank-color" id="unts-bank"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="bdown">
+                <div class="bd" id="unts-bd-fl"></div>
+                <div class="bd" id="unts-bd-tf"></div>
+                <div class="bd" id="unts-bd-km"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="form-wrap">
-    <div class="steps">
+  <script>
+    const KONFIG = {
+      stufen: { basis: 3.00, empf: 4.00, unts: 5.00 },
+      teilflaechePauschale: 10.00,
+      kmSatz: 0.40,
+      vorbereitungsPauschale: 5.00,
+      bundeslaender: {
+        BW:{}, BY:{}, BE:{}, BB:{}, HB:{}, HH:{},
+        HE:{}, MV:{}, NI:{}, NW:{}, RP:{}, SL:{},
+        SN:{}, ST:{}, SH:{}, TH:{}
+      }
+    };
 
-      <div class="step-row">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <div class="step-label">Wo findet der Einsatz statt?</div>
-          <select id="bundesland">
-            <option value="" disabled selected>Bundesland wählen …</option>
-            <option value="BW">Baden-Württemberg</option>
-            <option value="BY">Bayern</option>
-            <option value="BE">Berlin</option>
-            <option value="BB">Brandenburg</option>
-            <option value="HB">Bremen</option>
-            <option value="HH">Hamburg</option>
-            <option value="HE">Hessen</option>
-            <option value="MV">Mecklenburg-Vorpommern</option>
-            <option value="NI">Niedersachsen</option>
-            <option value="NW">Nordrhein-Westfalen</option>
-            <option value="RP">Rheinland-Pfalz</option>
-            <option value="SL">Saarland</option>
-            <option value="SN">Sachsen</option>
-            <option value="ST">Sachsen-Anhalt</option>
-            <option value="SH">Schleswig-Holstein</option>
-            <option value="TH">Thüringen</option>
-          </select>
-        </div>
-      </div>
+    function getK(bl) {
+      const b = KONFIG.bundeslaender[bl] || {};
+      return {
+        stufen: { ...KONFIG.stufen, ...(b.stufen || {}) },
+        teilflaechePauschale: b.teilflaechePauschale ?? KONFIG.teilflaechePauschale,
+        kmSatz: b.kmSatz ?? KONFIG.kmSatz,
+        vorbereitungsPauschale: b.vorbereitungsPauschale ?? KONFIG.vorbereitungsPauschale
+      };
+    }
 
-      <div class="step-row">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <div class="step-label">Wie groß ist die Fläche?</div>
-          <div class="field-row">
-            <input type="number" id="flaeche" min="0.1" step="0.1" placeholder="Gesamtfläche in ha" />
-            <input type="number" id="teilflaechen" min="1" step="1" placeholder="Anzahl Einzelflächen" />
-          </div>
-        </div>
-      </div>
+    function fmt(n) {
+      return n.toLocaleString('de-DE', {
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: 2
+      });
+    }
 
-      <div class="step-row">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <div class="step-label">Wie weit ist das Drohnenteam entfernt?</div>
-          <input type="number" id="entfernung" min="0" step="1" placeholder="Entfernung in km (einfache Strecke)" style="width:100%" />
-        </div>
-      </div>
+    function fill(id, v) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = v;
+    }
 
-    </div>
+    function rundeAuf5Euro(n) {
+      return Math.ceil(n / 5) * 5;
+    }
 
-    <div class="error" id="error">Bitte alle Felder ausfüllen und gültige Werte eingeben.</div>
+    function berechnen() {
+      const bl = document.getElementById('bundesland').value;
+      const fl = parseFloat(document.getElementById('flaeche').value);
+      const tf = parseInt(document.getElementById('teilflaechen').value, 10);
+      const km = parseFloat(document.getElementById('entfernung').value);
 
-    <div class="calc-btn" id="calc-btn" onclick="berechnen()"
-      onmouseenter="this.style.background='#639922'"
-      onmouseleave="this.style.background='#27500A'"
-      onmousedown="this.style.transform='scale(0.99)'"
-      onmouseup="this.style.transform='scale(1)'">
-      <span class="calc-btn-text">Spende berechnen</span>
-      <div class="calc-btn-arrow">→</div>
-    </div>
+      const err = document.getElementById('error');
+      const res = document.getElementById('results');
+      const lbl = document.getElementById('results-label');
 
-    <div class="results-label" id="results-label">Deine Spendenoptionen</div>
+      if (!bl || isNaN(fl) || fl <= 0 || isNaN(tf) || tf < 1 || isNaN(km) || km < 0) {
+        err.classList.add('on');
+        res.classList.remove('on');
+        lbl.classList.remove('on');
+        return;
+      }
 
-    <div class="results" id="results">
+      err.classList.remove('on');
 
-      <div class="stufe-card stufe-fair">
-        <div class="s-hd">
-          <div class="s-hd-left"><div class="s-badge">Fair</div><div class="s-ha" id="fair-ha"></div></div>
-          <div class="s-total" id="fair-total"></div>
-        </div>
-        <div class="s-body">
-          <div class="pay-row">
-            <div class="pay-icon bar">💵</div>
-            <div>
-              <div class="pay-name">Bar an den Piloten</div>
-              <div class="pay-desc" id="fair-bar-desc"></div>
-              <div class="pay-amount bar-color" id="fair-bar"></div>
-            </div>
-          </div>
-          <div class="pay-row">
-            <div class="pay-icon bank">🏦</div>
-            <div>
-              <div class="pay-name">Überweisung an den Verein</div>
-              <div class="pay-desc" id="fair-bank-desc"></div>
-              <div class="pay-amount bank-color" id="fair-bank"></div>
-            </div>
-          </div>
-        </div>
-        <div class="bdown">
-          <div class="bd" id="fair-bd-fl"></div>
-          <div class="bd" id="fair-bd-tf"></div>
-          <div class="bd" id="fair-bd-km"></div>
-        </div>
-      </div>
+      const k = getK(bl);
+      const tfB = tf * k.teilflaechePauschale;
+      const kmB = km * 2 * 2 * k.kmSatz;
+      const vorbereitungsB = k.vorbereitungsPauschale;
+      const barB = kmB + vorbereitungsB;
 
-      <div class="stufe-card stufe-empf">
-        <div class="s-hd">
-          <div class="s-hd-left"><div class="s-badge">Empfohlen</div><div class="s-ha" id="empf-ha"></div></div>
-          <div class="s-total" id="empf-total"></div>
-        </div>
-        <div class="s-body">
-          <div class="pay-row">
-            <div class="pay-icon bar">💵</div>
-            <div>
-              <div class="pay-name">Bar an den Piloten</div>
-              <div class="pay-desc" id="empf-bar-desc"></div>
-              <div class="pay-amount bar-color" id="empf-bar"></div>
-            </div>
-          </div>
-          <div class="pay-row">
-            <div class="pay-icon bank">🏦</div>
-            <div>
-              <div class="pay-name">Überweisung an den Verein</div>
-              <div class="pay-desc" id="empf-bank-desc"></div>
-              <div class="pay-amount bank-color" id="empf-bank"></div>
-            </div>
-          </div>
-        </div>
-        <div class="bdown">
-          <div class="bd" id="empf-bd-fl"></div>
-          <div class="bd" id="empf-bd-tf"></div>
-          <div class="bd" id="empf-bd-km"></div>
-        </div>
-      </div>
+      const tfLabel = tf === 1 ? '1 Einzelfläche' : tf + ' Einzelflächen';
+      const kmLabel = km === 1 ? '1 km einfache Strecke' : km + ' km einfache Strecke';
 
-      <div class="stufe-card stufe-unts">
-        <div class="s-hd">
-          <div class="s-hd-left">
-            <div class="s-badge">Unterstützend</div>
-            <span class="rec-pill">empfohlen</span>
-            <div class="s-ha" id="unts-ha"></div>
-          </div>
-          <div class="s-total" id="unts-total"></div>
-        </div>
-        <div class="s-body">
-          <div class="pay-row">
-            <div class="pay-icon bar">💵</div>
-            <div>
-              <div class="pay-name">Bar an den Piloten</div>
-              <div class="pay-desc" id="unts-bar-desc"></div>
-              <div class="pay-amount bar-color" id="unts-bar"></div>
-            </div>
-          </div>
-          <div class="pay-row">
-            <div class="pay-icon bank">🏦</div>
-            <div>
-              <div class="pay-name">Überweisung an den Verein</div>
-              <div class="pay-desc" id="unts-bank-desc"></div>
-              <div class="pay-amount bank-color" id="unts-bank"></div>
-            </div>
-          </div>
-        </div>
-        <div class="bdown">
-          <div class="bd" id="unts-bd-fl"></div>
-          <div class="bd" id="unts-bd-tf"></div>
-          <div class="bd" id="unts-bd-km"></div>
-        </div>
-      </div>
+      ['basis', 'empf', 'unts'].forEach(s => {
+        const haV = k.stufen[s];
+        const flB = fl * haV;
+        const bankRaw = flB + tfB;
+        const gesRaw = bankRaw + barB;
+        const ges = (s === 'empf' || s === 'unts') ? rundeAuf5Euro(gesRaw) : gesRaw;
+        const bankB = ges - barB;
 
-    </div>
-  </div>
-</div>
+        fill(s + '-ha', haV.toFixed(2).replace('.', ',') + ' €/ha');
+        fill(s + '-total', fmt(ges));
+        fill(s + '-bar', fmt(barB));
+        fill(s + '-bar-desc', fmt(kmB) + ' Spritgeld für zwei Fahrzeuge + ' + fmt(vorbereitungsB) + ' Vorbereitungspauschale');
+        fill(s + '-bank', fmt(bankB));
+        fill(s + '-bank-desc', 'Restbetrag für Verein, Technik und Organisation');
+        fill(s + '-bd-fl', fmt(flB) + ' für die Fläche');
+        fill(s + '-bd-tf', fmt(tfB) + ' für ' + tfLabel);
+        fill(s + '-bd-km', fmt(kmB) + ' für ' + kmLabel);
+      });
 
-<script>
-const KONFIG = {
-  stufen: { fair: 3.00, empf: 4.00, unts: 5.00 },
-  teilflaechePauschale: 10.00,
-  kmSatz: 0.40,
-  vorbereitungsPauschale: 5.00,
-  bundeslaender: {
-    BW:{}, BY:{}, BE:{}, BB:{}, HB:{}, HH:{},
-    HE:{}, MV:{}, NI:{}, NW:{}, RP:{}, SL:{},
-    SN:{}, ST:{}, SH:{}, TH:{}
-  }
-};
+      res.classList.add('on');
+      lbl.classList.add('on');
+    }
 
-function getK(bl) {
-  const b = KONFIG.bundeslaender[bl] || {};
-  return {
-    stufen: { ...KONFIG.stufen, ...(b.stufen||{}) },
-    teilflaechePauschale: b.teilflaechePauschale ?? KONFIG.teilflaechePauschale,
-    kmSatz: b.kmSatz ?? KONFIG.kmSatz,
-    vorbereitungsPauschale: b.vorbereitungsPauschale ?? KONFIG.vorbereitungsPauschale
-  };
-}
+    document.getElementById('bundesland').addEventListener('change', () => {
+      document.getElementById('flaeche').focus();
+    });
 
-function fmt(n) { return n.toLocaleString('de-DE',{style:'currency',currency:'EUR',minimumFractionDigits:2}); }
-function fill(id, v) { document.getElementById(id).textContent = v; }
+    document.getElementById('flaeche').addEventListener('change', function() {
+      if (this.value) document.getElementById('teilflaechen').focus();
+    });
 
-function berechnen() {
-  const bl = document.getElementById('bundesland').value;
-  const fl = parseFloat(document.getElementById('flaeche').value);
-  const tf = parseInt(document.getElementById('teilflaechen').value);
-  const km = parseFloat(document.getElementById('entfernung').value);
-  const err = document.getElementById('error');
-  const res = document.getElementById('results');
-  const lbl = document.getElementById('results-label');
+    document.getElementById('teilflaechen').addEventListener('change', function() {
+      if (this.value) document.getElementById('entfernung').focus();
+    });
 
-  if (!bl || isNaN(fl)||fl<=0 || isNaN(tf)||tf<1 || isNaN(km)||km<0) {
-    err.classList.add('on'); res.classList.remove('on'); lbl.classList.remove('on'); return;
-  }
-  err.classList.remove('on');
+    document.getElementById('entfernung').addEventListener('change', function() {
+      if (this.value !== '') berechnen();
+    });
 
-  const k = getK(bl);
-  const tfB = tf * k.teilflaechePauschale;
-  const kmB = km * 2 * 2 * k.kmSatz;
-  const barB = kmB + k.vorbereitungsPauschale;
-  const barDesc = fmt(kmB) + ' Spritgeld + ' + fmt(k.vorbereitungsPauschale) + ' Vorbereitungspauschale';
-
-  const tfLabel = tf === 1 ? '1 Teilfläche' : tf + ' Teilflächen';
-  const kmLabel = km + ' km Anfahrt';
-
-  ['fair','empf','unts'].forEach(s => {
-    const haV = k.stufen[s];
-    const flB = fl * haV;
-    const bankB = flB + tfB;
-    const ges = bankB + kmB;
-
-    fill(s+'-ha',        haV.toFixed(2).replace('.',',')+' €/ha');
-    fill(s+'-total',     fmt(ges));
-    fill(s+'-bar',       fmt(barB));
-    fill(s+'-bar-desc',  barDesc);
-    fill(s+'-bank',      fmt(bankB));
-    fill(s+'-bank-desc', fmt(flB) + ' für die Fläche + ' + fmt(tfB) + ' für ' + tfLabel);
-    fill(s+'-bd-fl',     fmt(flB) + ' für die Fläche');
-    fill(s+'-bd-tf',     fmt(tfB) + ' für ' + tfLabel);
-    fill(s+'-bd-km',     fmt(kmB) + ' für ' + kmLabel);
-  });
-
-  res.classList.add('on');
-  lbl.classList.add('on');
-}
-
-document.getElementById('bundesland').addEventListener('change', () => document.getElementById('flaeche').focus());
-document.getElementById('flaeche').addEventListener('change', function() { if(this.value) document.getElementById('teilflaechen').focus(); });
-document.getElementById('teilflaechen').addEventListener('change', function() { if(this.value) document.getElementById('entfernung').focus(); });
-document.getElementById('entfernung').addEventListener('change', function() { if(this.value) berechnen(); });
-document.addEventListener('keydown', e => { if(e.key==='Enter') berechnen(); });
-</script>
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Enter') berechnen();
+    });
+  </script>
+</body>
+</html>
