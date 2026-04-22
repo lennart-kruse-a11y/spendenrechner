@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impressum – Kitzrettung Spendenrechner</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    :root {
+      --bg-main: #eef2e8;
+      --bg-card: #ffffff;
+      --text-main: #1f2937;
+      --text-soft: #6b7280;
+      --line: #e5e7eb;
+      --line-strong: #c8d6b3;
+      --green-dark: #27500A;
+      --green-mid: #3B6D11;
+      --green-light: #639922;
+      --green-pale: #EAF3DE;
+      --green-accent: #97C459;
+      --shadow-lg: 0 20px 50px rgba(0,0,0,0.08);
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.06);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --content-width: 1180px;
+      --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      --font-display: Georgia, 'Times New Roman', serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-main);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(calc(100% - 32px), var(--content-width));
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(12px);
+      background: rgba(238,242,232,0.88);
+      border-bottom: 1px solid rgba(39,80,10,0.08);
+    }
+
+    .nav {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 12px; }
+
+    .brand-mark {
+      width: 40px; height: 40px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--green-dark), var(--green-light));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px; flex-shrink: 0;
+    }
+
+    .brand-title { font-size: 15px; font-weight: 700; color: var(--green-dark); }
+    .brand-sub { font-size: 12px; color: var(--text-soft); margin-top: 1px; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      background: var(--green-dark);
+      color: var(--green-pale);
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 0.15s;
+    }
+
+    .back-btn:hover { background: var(--green-light); }
+
+    /* Main */
+    main {
+      flex: 1;
+      padding: 48px 0 60px;
+    }
+
+    .imprint-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(39,80,10,0.08);
+      padding: 40px;
+      max-width: 620px;
+    }
+
+    .kicker {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--green-light);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3vw, 38px);
+      line-height: 1.15;
+      color: var(--green-dark);
+      margin-bottom: 28px;
+    }
+
+    .block {
+      padding: 20px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .block:first-of-type { border-top: none; padding-top: 0; }
+
+    .block h2 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--green-mid);
+      margin-bottom: 10px;
+    }
+
+    .block p {
+      font-size: 15px;
+      color: var(--text-main);
+      line-height: 1.75;
+    }
+
+    .block p + p { margin-top: 8px; }
+
+    .block a {
+      color: var(--green-mid);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .note {
+      margin-top: 28px;
+      padding: 16px 18px;
+      background: var(--bg-main);
+      border-radius: 12px;
+      border: 1px solid var(--line-strong);
+    }
+
+    .note p {
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.75;
+    }
+
+    /* Footer */
+    .site-footer { padding: 24px 0 36px; }
+
+    .footer-shell {
+      background: var(--bg-card);
+      border-radius: 20px;
+      box-shadow: var(--shadow-md);
+      border: 1px solid rgba(39,80,10,0.08);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-copy { font-size: 13px; color: var(--text-soft); }
+    .footer-copy a { color: var(--green-mid); }
+
+    @media (max-width: 760px) {
+      .container { width: min(calc(100% - 20px), var(--content-width)); }
+      .nav { flex-direction: column; align-items: flex-start; padding: 12px 0; }
+      .imprint-card { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <div class="brand-mark">🦌</div>
+        <div class="brand-text">
+          <div class="brand-title">Kitzrettung Spendenrechner</div>
+          <div class="brand-sub">Klare Orientierung für faire Einsatzbeiträge</div>
+        </div>
+      </a>
+      <a class="back-btn" href="index.html">← Zurück zur Hauptseite</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="imprint-card">
+
+        <div class="kicker">Rechtliches</div>
+        <h1>Impressum</h1>
+
+        <div class="block">
+          <h2>Angaben gemäß § 5 DDG</h2>
+          <p>
+            Lennart Kruse<br>
+            Plöner Chaussee 42<br>
+            24326 Ascheberg
+          </p>
+          <p style="margin-top: 12px;">
+            E-Mail: <a href="mailto:wildes_holstein@web.de">wildes_holstein@web.de</a>
+          </p>
+        </div>
+
+        <div class="block">
+          <h2>Datenschutz</h2>
+          <p>
+            Diese Website verwendet ausschließlich lokal eingebundene Ressourcen. Es werden keine externen Dienste, Tracker oder Analyse-Tools geladen.
+          </p>
+          <p>
+            Es werden keine personenbezogenen Daten erhoben oder gespeichert. Das Kontaktformular öffnet den E-Mail-Client des Nutzers und überträgt keine Daten an einen Server.
+          </p>
+        </div>
+
+        <div class="block">
+          <h2>Haftung für Inhalte</h2>
+          <p>
+            Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt. Die berechneten Beträge sind Orientierungswerte ohne Rechtsverbindlichkeit. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte wird keine Gewähr übernommen.
+          </p>
+        </div>
+
+        <div class="note">
+          <p>
+            Für den Inhalt verlinkter externer Seiten sind ausschließlich deren Betreiber verantwortlich. Zum Zeitpunkt der Verlinkung waren keine Rechtsverstöße erkennbar.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <div class="footer-copy">
+        Kitzrettung Schleswig-Holstein &nbsp;&middot;&nbsp;
+        <a href="mailto:wildes_holstein@web.de">wildes_holstein@web.de</a>
+      </div>
+      <div style="font-size: 13px; color: var(--text-soft);">
+        <a href="index.html" style="color: var(--green-dark); font-weight: 700;">← Zurück zur Hauptseite</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
