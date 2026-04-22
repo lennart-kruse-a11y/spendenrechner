@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kitzrettung Spendenrechner</title>
   <meta name="description" content="Spendenrechner für Kitzrettungseinsätze mit Drohne. Schnell berechnen, welcher Beitrag für Fläche, Anfahrt und Organisation sinnvoll ist." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg-main: #eef2e8;
@@ -25,268 +28,148 @@
       --red-line: #F09595;
       --blue-soft: #E6F1FB;
       --blue-strong: #185FA5;
-      --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.08);
-      --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 50px rgba(0,0,0,0.08);
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.06);
       --radius-xl: 28px;
       --radius-lg: 20px;
-      --radius-md: 14px;
-      --radius-sm: 10px;
       --content-width: 1180px;
+      --font-body: 'DM Sans', sans-serif;
+      --font-display: 'DM Serif Display', serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: var(--font-body);
       background: var(--bg-main);
       color: var(--text-main);
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       line-height: 1.5;
     }
 
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
     .container {
       width: min(calc(100% - 32px), var(--content-width));
       margin: 0 auto;
     }
 
+    /* Header */
     .site-header {
       position: sticky;
       top: 0;
       z-index: 40;
       backdrop-filter: blur(12px);
-      background: rgba(238, 242, 232, 0.82);
-      border-bottom: 1px solid rgba(39, 80, 10, 0.08);
+      background: rgba(238,242,232,0.88);
+      border-bottom: 1px solid rgba(39,80,10,0.08);
     }
 
     .nav {
-      min-height: 74px;
+      min-height: 70px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 20px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
+    .brand { display: flex; align-items: center; gap: 12px; }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
+      width: 40px; height: 40px;
+      border-radius: 11px;
       background: linear-gradient(135deg, var(--green-dark), var(--green-light));
-      color: var(--green-pale);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      box-shadow: var(--shadow-md);
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px; flex-shrink: 0;
     }
 
-    .brand-text {
-      min-width: 0;
-    }
-
-    .brand-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--green-dark);
-    }
-
-    .brand-sub {
-      font-size: 12px;
-      color: var(--text-soft);
-      margin-top: 2px;
-    }
+    .brand-title { font-size: 15px; font-weight: 700; color: var(--green-dark); }
+    .brand-sub { font-size: 12px; color: var(--text-soft); margin-top: 1px; }
 
     .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
+      display: flex; align-items: center;
+      gap: 18px; flex-wrap: wrap; justify-content: flex-end;
     }
 
-    .nav-links a {
-      font-size: 14px;
-      color: var(--text-soft);
-      transition: color 0.15s ease;
-    }
-
-    .nav-links a:hover {
-      color: var(--green-dark);
-    }
+    .nav-links a { font-size: 14px; color: var(--text-soft); transition: color 0.15s; }
+    .nav-links a:hover { color: var(--green-dark); }
 
     .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 11px 16px;
-      border-radius: 999px;
-      background: var(--green-dark);
-      color: var(--green-pale) !important;
-      font-weight: 700;
+      padding: 9px 18px; border-radius: 999px;
+      background: var(--green-dark); color: var(--green-pale) !important;
+      font-weight: 700; transition: background 0.15s;
     }
+    .nav-cta:hover { background: var(--green-light); }
 
-    .hero {
-      padding: 48px 0 30px;
-    }
+    /* Hero */
+    .hero { padding: 44px 0 28px; }
 
     .hero-grid {
       display: grid;
       grid-template-columns: 1.05fr 0.95fr;
-      gap: 26px;
-      align-items: stretch;
-    }
-
-    .hero-copy,
-    .hero-panel {
-      background: var(--bg-card);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(39, 80, 10, 0.08);
-      overflow: hidden;
+      gap: 24px; align-items: stretch;
     }
 
     .hero-copy {
-      position: relative;
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbf4 100%);
+      background: linear-gradient(180deg, #fff 0%, #f8fbf4 100%);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(39,80,10,0.08);
       padding: 34px;
+      display: flex; flex-direction: column; justify-content: center;
     }
 
     .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: var(--green-pale);
-      color: var(--green-mid);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      margin-bottom: 18px;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 12px; border-radius: 999px;
+      background: var(--green-pale); color: var(--green-mid);
+      font-size: 12px; font-weight: 700; letter-spacing: 0.03em;
+      margin-bottom: 16px; width: fit-content;
     }
 
     .hero h1 {
-      font-size: clamp(32px, 4vw, 54px);
-      line-height: 1.05;
-      color: var(--green-dark);
-      max-width: 10ch;
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.6vw, 50px);
+      line-height: 1.1; color: var(--green-dark);
     }
 
     .hero-lead {
-      font-size: 17px;
-      color: var(--text-soft);
-      margin-top: 18px;
-      max-width: 58ch;
-      line-height: 1.7;
+      font-size: 16px; color: var(--text-soft);
+      margin-top: 16px; max-width: 54ch; line-height: 1.75;
     }
 
     .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 24px;
+      display: flex; align-items: center;
+      gap: 12px; flex-wrap: wrap; margin-top: 24px;
     }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 48px;
-      padding: 0 18px;
-      border-radius: 14px;
-      font-size: 15px;
-      font-weight: 700;
-      transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 8px; min-height: 46px; padding: 0 20px;
+      border-radius: 13px; font-size: 15px; font-weight: 700;
+      font-family: var(--font-body);
+      transition: transform 0.15s, background 0.15s;
+      border: none; cursor: pointer;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .btn-primary {
-      background: var(--green-dark);
-      color: var(--green-pale);
-    }
-
-    .btn-primary:hover {
-      background: var(--green-light);
-    }
-
-    .btn-secondary {
-      border: 1px solid var(--line-strong);
-      background: #fff;
-      color: var(--green-dark);
-    }
-
-    .hero-points {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 28px;
-    }
-
-    .hero-point {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 14px;
-    }
-
-    .hero-point strong {
-      display: block;
-      font-size: 14px;
-      color: var(--green-dark);
-      margin-bottom: 6px;
-    }
-
-    .hero-point span {
-      font-size: 13px;
-      color: var(--text-soft);
-      line-height: 1.5;
-    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--green-dark); color: var(--green-pale); }
+    .btn-primary:hover { background: var(--green-light); }
+    .btn-secondary { border: 1px solid var(--line-strong) !important; background: #fff; color: var(--green-dark); }
 
     .hero-panel {
-      background: linear-gradient(180deg, var(--green-dark) 0%, #1f3f08 100%);
+      background: linear-gradient(160deg, #2e5e0e 0%, #1a3a06 100%);
       color: var(--green-pale);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(39,80,10,0.08);
       padding: 30px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
+      display: flex; flex-direction: column; justify-content: space-between;
+      position: relative; overflow: hidden;
     }
 
     .hero-panel::after {
-      content: "";
-      position: absolute;
-      inset: 0;
+      content: ""; position: absolute; inset: 0;
       background-image:
         radial-gradient(circle at 20% 20%, rgba(234,243,222,0.08), transparent 30%),
         radial-gradient(circle at 80% 30%, rgba(234,243,222,0.06), transparent 25%),
@@ -294,848 +177,411 @@
       pointer-events: none;
     }
 
-    .hero-panel > * {
-      position: relative;
-      z-index: 1;
-    }
+    .hero-panel > * { position: relative; z-index: 1; }
 
     .panel-topline {
-      font-size: 12px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--green-accent);
+      font-size: 11px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--green-accent); font-weight: 700;
     }
 
     .panel-title {
       margin-top: 10px;
-      font-size: 28px;
-      line-height: 1.15;
-      font-weight: 700;
-      max-width: 12ch;
+      font-family: var(--font-display);
+      font-size: 25px; line-height: 1.2;
     }
 
-    .panel-text {
-      margin-top: 14px;
-      font-size: 15px;
-      line-height: 1.7;
-      color: #c6ddb1;
-      max-width: 40ch;
-    }
+    .panel-text { margin-top: 12px; font-size: 15px; line-height: 1.75; color: #c6ddb1; }
 
-    .panel-list {
-      margin-top: 28px;
-      display: grid;
-      gap: 12px;
-    }
+    .panel-list { margin-top: 24px; display: grid; gap: 10px; }
 
     .panel-item {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
+      display: flex; gap: 12px; align-items: flex-start;
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 16px;
-      padding: 14px;
+      border-radius: 14px; padding: 13px;
     }
 
     .panel-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
+      width: 32px; height: 32px; border-radius: 10px;
       background: rgba(234,243,222,0.14);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
 
-    .panel-item strong {
-      display: block;
-      font-size: 14px;
-      margin-bottom: 4px;
-    }
+    .panel-item strong { display: block; font-size: 13px; margin-bottom: 3px; }
+    .panel-item span { font-size: 13px; color: #d8e8c9; line-height: 1.5; }
 
-    .panel-item span {
-      font-size: 13px;
-      color: #d8e8c9;
-      line-height: 1.55;
-    }
-
-    .section {
-      padding: 34px 0;
-    }
-
-    .section-head {
-      margin-bottom: 18px;
-    }
+    /* Sections */
+    .section { padding: 32px 0; }
+    .section-head { margin-bottom: 18px; }
 
     .section-kicker {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--green-light);
-      margin-bottom: 10px;
+      font-size: 11px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--green-light); margin-bottom: 8px;
     }
 
     .section-title {
-      font-size: clamp(24px, 3vw, 36px);
-      line-height: 1.15;
-      color: var(--green-dark);
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.6vw, 32px);
+      line-height: 1.15; color: var(--green-dark);
     }
 
     .section-text {
-      margin-top: 10px;
-      max-width: 70ch;
-      font-size: 16px;
-      color: var(--text-soft);
-      line-height: 1.7;
+      margin-top: 10px; max-width: 68ch;
+      font-size: 15px; color: var(--text-soft); line-height: 1.75;
     }
 
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
+    /* Info Grid */
+    .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 
     .info-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      border: 1px solid rgba(39, 80, 10, 0.08);
+      background: var(--bg-card); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md); border: 1px solid rgba(39,80,10,0.08);
       padding: 22px;
     }
 
     .info-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: var(--green-pale);
-      color: var(--green-mid);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      margin-bottom: 14px;
+      width: 44px; height: 44px; border-radius: 13px;
+      background: var(--green-pale); color: var(--green-mid);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; margin-bottom: 13px;
     }
 
-    .info-card h3 {
-      font-size: 18px;
-      color: var(--green-dark);
-      margin-bottom: 8px;
-    }
+    .info-card h3 { font-size: 16px; color: var(--green-dark); margin-bottom: 7px; }
+    .info-card p { font-size: 14px; color: var(--text-soft); line-height: 1.7; }
 
-    .info-card p {
-      font-size: 14px;
-      color: var(--text-soft);
-      line-height: 1.7;
-    }
-
+    /* Calculator */
     .calculator-shell {
       background: linear-gradient(180deg, #f6f9f1 0%, #eef2e8 100%);
-      border-top: 1px solid rgba(39, 80, 10, 0.06);
-      border-bottom: 1px solid rgba(39, 80, 10, 0.06);
+      border-top: 1px solid rgba(39,80,10,0.06);
+      border-bottom: 1px solid rgba(39,80,10,0.06);
     }
 
     .calculator-stage {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 24px;
-      align-items: start;
+      display: grid; grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px; align-items: start;
     }
 
-    .calculator-side {
-      position: sticky;
-      top: 100px;
-      display: grid;
-      gap: 16px;
-    }
+    .calculator-side { position: sticky; top: 88px; display: grid; gap: 14px; }
 
     .side-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      border: 1px solid rgba(39, 80, 10, 0.08);
-      padding: 20px;
+      background: var(--bg-card); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md); border: 1px solid rgba(39,80,10,0.08);
+      padding: 18px;
     }
 
-    .side-card h3 {
-      font-size: 18px;
-      color: var(--green-dark);
-      margin-bottom: 10px;
-    }
+    .side-card h3 { font-size: 16px; color: var(--green-dark); margin-bottom: 9px; }
+    .side-card p, .side-card li { font-size: 14px; color: var(--text-soft); line-height: 1.7; }
+    .side-card ul { padding-left: 17px; display: grid; gap: 5px; }
 
-    .side-card p,
-    .side-card li {
-      font-size: 14px;
-      color: var(--text-soft);
-      line-height: 1.7;
-    }
-
-    .side-card ul {
-      padding-left: 18px;
-      display: grid;
-      gap: 6px;
-    }
-
-    .side-highlight {
-      background: linear-gradient(180deg, var(--green-dark), #1f3f08);
-      color: var(--green-pale);
-    }
-
-    .side-highlight h3,
-    .side-highlight p,
-    .side-highlight li {
-      color: inherit;
-    }
-
-    .side-highlight p {
-      color: #d5e6c4;
-    }
+    .side-highlight { background: linear-gradient(160deg, var(--green-dark), #1a3a06); }
+    .side-highlight h3 { color: var(--green-pale); }
+    .side-highlight p { color: #d5e6c4; }
 
     .calculator-card {
-      background: var(--bg-card);
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(39, 80, 10, 0.08);
+      background: var(--bg-card); border-radius: 24px;
+      overflow: hidden; box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(39,80,10,0.08);
     }
 
-    .calculator-wrap {
-      width: 100%;
-      padding: 0 0 2.5rem;
-    }
+    .calculator-wrap { padding: 0 0 2.5rem; }
 
     .calc-hero {
       text-align: center;
-      background: var(--green-dark);
-      padding: 2.25rem 2rem 2rem;
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(160deg, #2e5e0e 0%, #1a3a06 100%);
+      padding: 2.2rem 2rem 2.5rem;
+      position: relative; overflow: hidden;
     }
 
     .calc-pattern {
-      position: absolute;
-      inset: 0;
-      opacity: 0.05;
+      position: absolute; inset: 0; opacity: 0.04;
       background-image:
-        repeating-linear-gradient(45deg, #EAF3DE 0px, #EAF3DE 1px, transparent 1px, transparent 12px),
-        repeating-linear-gradient(-45deg, #EAF3DE 0px, #EAF3DE 1px, transparent 1px, transparent 12px);
+        repeating-linear-gradient(45deg, #EAF3DE 0px, #EAF3DE 1px, transparent 1px, transparent 14px),
+        repeating-linear-gradient(-45deg, #EAF3DE 0px, #EAF3DE 1px, transparent 1px, transparent 14px);
     }
 
-    .calc-hero-inner {
-      position: relative;
-    }
+    .calc-hero-inner { position: relative; }
 
     .calc-tag {
       display: inline-block;
-      background: var(--green-mid);
-      color: #C0DD97;
-      font-size: 11px;
-      padding: 4px 12px;
-      border-radius: 99px;
-      margin-bottom: 12px;
-      letter-spacing: 0.04em;
-      font-weight: 700;
+      background: rgba(255,255,255,0.12); color: #C0DD97;
+      font-size: 11px; padding: 4px 14px; border-radius: 99px;
+      margin-bottom: 12px; letter-spacing: 0.05em; font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.1);
     }
 
     .calc-title {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--green-pale);
-      line-height: 1.2;
+      font-family: var(--font-display);
+      font-size: 28px; color: var(--green-pale); line-height: 1.2;
     }
 
-    .calc-sub {
-      font-size: 14px;
-      color: var(--green-accent);
-      margin-top: 8px;
-      line-height: 1.6;
-    }
+    .calc-sub { font-size: 14px; color: #a8cc80; margin-top: 8px; line-height: 1.6; }
 
     .calc-divider {
-      width: 32px;
-      height: 2px;
-      background: var(--green-light);
-      margin: 14px auto 0;
-      border-radius: 2px;
+      width: 30px; height: 2px;
+      background: var(--green-accent);
+      margin: 14px auto 0; border-radius: 2px; opacity: 0.6;
     }
 
     .form-wrap {
-      background: #ffffff;
-      border-radius: 12px;
+      background: #fff; border-radius: 14px;
       padding: 1.5rem 1.25rem 0;
-      margin: -20px 1rem 0;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      margin: -22px 1rem 0;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
       position: relative;
     }
 
-    .steps {
-      display: flex;
-      flex-direction: column;
-    }
+    .steps { display: flex; flex-direction: column; }
 
     .step-row {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-      padding: 1.1rem 0;
-      border-bottom: 0.5px solid var(--line);
+      display: flex; gap: 16px; align-items: flex-start;
+      padding: 1rem 0; border-bottom: 1px solid var(--line);
     }
 
-    .step-row:last-child {
-      border-bottom: none;
-    }
+    .step-row:last-child { border-bottom: none; }
 
     .step-num {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: var(--green-pale);
-      color: var(--green-mid);
-      font-size: 12px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-top: 5px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--green-pale); color: var(--green-mid);
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 4px;
       border: 1.5px solid #C0DD97;
     }
 
-    .step-body {
-      flex: 1;
-      min-width: 0;
-    }
+    .step-body { flex: 1; min-width: 0; }
+    .step-label { font-size: 13px; color: var(--text-soft); margin-bottom: 8px; }
 
-    .step-label {
-      font-size: 13px;
-      color: var(--text-soft);
-      margin-bottom: 8px;
-    }
-
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
     input[type="number"],
+    input[type="text"],
+    input[type="email"],
     select,
     textarea {
-      width: 100%;
-      min-height: 44px;
-      padding: 0 12px;
-      border: 1px solid var(--line-strong);
-      border-radius: 8px;
-      background: #ffffff;
-      color: #1a1a1a;
-      font-size: 14px;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
+      width: 100%; min-height: 44px; padding: 0 12px;
+      border: 1px solid var(--line-strong); border-radius: 8px;
+      background: #fff; color: #1a1a1a;
+      font-size: 14px; font-family: var(--font-body);
+      outline: none; appearance: none; -webkit-appearance: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
 
-    textarea {
-      min-height: 120px;
-      padding: 12px;
-      resize: vertical;
-    }
+    textarea { min-height: 110px; padding: 11px 12px; resize: vertical; }
 
-    input[type="number"]:focus,
-    select:focus,
-    textarea:focus {
+    input:focus, select:focus, textarea:focus {
       border-color: var(--green-light);
-      box-shadow: 0 0 0 3px rgba(99,153,34,0.15);
+      box-shadow: 0 0 0 3px rgba(99,153,34,0.14);
     }
 
     .calc-btn {
       width: calc(100% - 2.5rem);
-      margin: 1.5rem 1.25rem 0;
-      height: 46px;
-      background: var(--green-dark);
+      margin: 1.4rem 1.25rem 0;
+      height: 48px; background: var(--green-dark);
       border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      cursor: pointer;
-      transition: background 0.15s, transform 0.15s;
-      user-select: none;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      cursor: pointer; transition: background 0.15s, transform 0.15s;
+      user-select: none; border: none;
     }
 
-    .calc-btn:hover {
-      background: var(--green-light);
-    }
-
-    .calc-btn:active {
-      transform: scale(0.99);
-    }
+    .calc-btn:hover { background: var(--green-light); }
+    .calc-btn:active { transform: scale(0.99); }
 
     .calc-btn-text {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--green-pale);
-      letter-spacing: 0.01em;
+      font-size: 15px; font-weight: 700;
+      font-family: var(--font-body); color: var(--green-pale);
     }
 
     .calc-btn-arrow {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: rgba(234,243,222,0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--green-pale);
-      font-size: 13px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(234,243,222,0.18);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--green-pale); font-size: 13px;
     }
 
     .error {
-      font-size: 13px;
-      color: #A32D2D;
-      margin: 10px 1.25rem 0;
-      display: none;
+      font-size: 13px; color: #A32D2D;
+      background: var(--red-soft); border: 1px solid var(--red-line);
+      border-radius: 8px; padding: 8px 12px;
+      margin: 10px 1.25rem 0; display: none;
     }
 
-    .error.on {
-      display: block;
-    }
+    .error.on { display: block; }
 
     .results-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-soft);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin: 2rem 1.25rem 0.75rem;
-      display: none;
+      font-size: 11px; font-weight: 700; color: var(--text-soft);
+      letter-spacing: 0.07em; text-transform: uppercase;
+      margin: 1.75rem 1.25rem 0.7rem; display: none;
     }
 
-    .results-label.on {
-      display: block;
-    }
+    .results-label.on { display: block; }
 
     .results {
-      display: none;
-      flex-direction: column;
-      gap: 10px;
+      display: none; flex-direction: column; gap: 10px;
       padding: 0 1.25rem;
     }
 
-    .results.on {
-      display: flex;
-    }
+    .results.on { display: flex; }
 
-    .stufe-card {
-      border-radius: 18px;
-      border: 1px solid;
-      overflow: hidden;
-      background: #fff;
-    }
+    /* Stufen */
+    .stufe-card { border-radius: 16px; border: 1px solid; overflow: hidden; background: #fff; }
 
-    .stufe-basis {
-      border-color: var(--red-line);
-    }
+    .stufe-basis { border-color: var(--red-line); }
+    .stufe-basis .s-hd { background: var(--red-soft); }
+    .stufe-basis .s-badge { background: #F7C1C1; color: #791F1F; }
+    .stufe-basis .s-ha, .stufe-basis .s-total { color: #A32D2D; }
 
-    .stufe-basis .s-hd {
-      background: var(--red-soft);
-    }
+    .stufe-empf { border-color: var(--orange-line); }
+    .stufe-empf .s-hd { background: var(--orange-soft); }
+    .stufe-empf .s-badge { background: #FAC775; color: #633806; }
+    .stufe-empf .s-ha, .stufe-empf .s-total { color: #854F0B; }
 
-    .stufe-basis .s-badge {
-      background: #F7C1C1;
-      color: #791F1F;
-    }
-
-    .stufe-basis .s-ha,
-    .stufe-basis .s-total {
-      color: #A32D2D;
-    }
-
-    .stufe-empf {
-      border-color: var(--orange-line);
-    }
-
-    .stufe-empf .s-hd {
-      background: var(--orange-soft);
-    }
-
-    .stufe-empf .s-badge {
-      background: #FAC775;
-      color: #633806;
-    }
-
-    .stufe-empf .s-ha,
-    .stufe-empf .s-total {
-      color: #854F0B;
-    }
-
-    .stufe-unts {
-      border-color: var(--green-mid);
-      border-width: 2px;
-    }
-
-    .stufe-unts .s-hd {
-      background: var(--green-dark);
-      padding: 1.1rem 1.25rem;
-    }
-
-    .stufe-unts .s-badge {
-      background: var(--green-pale);
-      color: var(--green-dark);
-    }
-
-    .stufe-unts .s-ha {
-      color: var(--green-accent);
-    }
-
-    .stufe-unts .s-total {
-      color: var(--green-pale);
-      font-size: 26px;
-    }
+    .stufe-unts { border-color: var(--green-mid); border-width: 2px; }
+    .stufe-unts .s-hd { background: var(--green-dark); padding: 1rem 1.25rem; }
+    .stufe-unts .s-badge { background: var(--green-pale); color: var(--green-dark); }
+    .stufe-unts .s-ha { color: var(--green-accent); }
+    .stufe-unts .s-total { color: var(--green-pale); font-size: 24px; }
 
     .rec-pill {
-      font-size: 10px;
-      background: var(--green-light);
-      color: var(--green-pale);
-      padding: 2px 8px;
-      border-radius: 99px;
-      margin-left: 6px;
-      font-weight: 700;
+      font-size: 10px; background: var(--green-light); color: var(--green-pale);
+      padding: 2px 9px; border-radius: 99px; margin-left: 4px; font-weight: 700;
     }
 
     .s-hd {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.85rem 1.25rem;
-      gap: 12px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.8rem 1.25rem; gap: 12px;
     }
 
-    .s-hd-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .s-badge {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 99px;
-    }
-
-    .s-ha {
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .s-total {
-      font-size: 20px;
-      font-weight: 800;
-      white-space: nowrap;
-    }
+    .s-hd-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .s-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
+    .s-ha { font-size: 12px; font-weight: 700; }
+    .s-total { font-size: 20px; font-weight: 800; white-space: nowrap; }
 
     .s-body {
-      background: #fff;
-      padding: 0.75rem 1.25rem;
-      border-top: 0.5px solid var(--line);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      background: #fff; padding: 0.7rem 1.25rem;
+      border-top: 1px solid var(--line);
+      display: grid; grid-template-columns: 1fr 1fr;
     }
 
-    .pay-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 8px 0;
-    }
-
-    .pay-row:first-child {
-      padding-right: 16px;
-      border-right: 0.5px solid var(--line);
-    }
-
-    .pay-row:last-child {
-      padding-left: 16px;
-    }
+    .pay-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; }
+    .pay-row:first-child { padding-right: 16px; border-right: 1px solid var(--line); }
+    .pay-row:last-child { padding-left: 16px; }
 
     .pay-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      flex-shrink: 0;
-      margin-top: 1px;
+      width: 27px; height: 27px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0; margin-top: 1px;
     }
 
-    .pay-icon.bar {
-      background: var(--orange-soft);
-    }
+    .pay-icon.bar { background: var(--orange-soft); }
+    .pay-icon.bank { background: var(--blue-soft); }
 
-    .pay-icon.bank {
-      background: var(--blue-soft);
-    }
-
-    .pay-name {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .pay-desc {
-      font-size: 11px;
-      color: var(--text-soft);
-      margin-top: 2px;
-      line-height: 1.5;
-    }
-
-    .pay-amount {
-      font-size: 16px;
-      font-weight: 800;
-      margin-top: 4px;
-    }
-
-    .bar-color {
-      color: #854F0B;
-    }
-
-    .bank-color {
-      color: var(--blue-strong);
-    }
+    .pay-name { font-size: 12px; font-weight: 700; color: var(--text-main); }
+    .pay-desc { font-size: 11px; color: var(--text-soft); margin-top: 2px; line-height: 1.5; }
+    .pay-amount { font-size: 16px; font-weight: 800; margin-top: 4px; }
+    .bar-color { color: #854F0B; }
+    .bank-color { color: var(--blue-strong); }
 
     .bdown {
-      background: var(--bg-soft);
-      border-top: 0.5px solid var(--line);
-      padding: 8px 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
+      background: var(--bg-soft); border-top: 1px solid var(--line);
+      padding: 7px 1.25rem; display: flex; flex-direction: column; gap: 2px;
     }
 
-    .bd {
-      font-size: 11px;
-      color: var(--text-soft);
-    }
+    .bd { font-size: 11px; color: var(--text-soft); }
 
-    .split-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-
-    .faq-list {
-      display: grid;
-      gap: 14px;
-    }
+    /* FAQ */
+    .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .faq-list { display: grid; gap: 12px; }
 
     details {
-      background: var(--bg-card);
-      border: 1px solid rgba(39, 80, 10, 0.08);
-      border-radius: 16px;
-      box-shadow: var(--shadow-md);
-      padding: 16px 18px;
+      background: var(--bg-card); border: 1px solid rgba(39,80,10,0.08);
+      border-radius: 15px; box-shadow: var(--shadow-md); padding: 15px 18px;
     }
 
     summary {
-      cursor: pointer;
-      list-style: none;
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--green-dark);
+      cursor: pointer; list-style: none;
+      font-size: 15px; font-weight: 700; color: var(--green-dark);
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
     }
 
-    summary::-webkit-details-marker {
-      display: none;
+    summary::after {
+      content: "+"; font-size: 18px; font-weight: 400;
+      color: var(--green-light); flex-shrink: 0; transition: transform 0.2s;
     }
 
-    details p {
-      margin-top: 10px;
-      color: var(--text-soft);
-      font-size: 14px;
-      line-height: 1.7;
+    details[open] summary::after { transform: rotate(45deg); }
+    summary::-webkit-details-marker { display: none; }
+
+    details p { margin-top: 11px; color: var(--text-soft); font-size: 14px; line-height: 1.75; }
+
+    /* Kontakt */
+    .contact-wrap {
+      background: linear-gradient(180deg, #fff 0%, #f8fbf4 100%);
+      border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(39,80,10,0.08); padding: 32px;
     }
 
-    .contact-card {
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbf4 100%);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(39, 80, 10, 0.08);
-      padding: 28px;
-    }
+    .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 24px; align-items: start; }
 
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .contact-points {
-      display: grid;
-      gap: 12px;
-      margin-top: 16px;
-    }
+    .contact-points { display: grid; gap: 10px; margin-top: 18px; }
 
     .contact-point {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px;
+      background: #fff; border: 1px solid var(--line);
+      border-radius: 13px; padding: 13px 15px;
     }
 
-    .contact-point strong {
-      display: block;
-      margin-bottom: 4px;
-      color: var(--green-dark);
-      font-size: 14px;
-    }
+    .contact-point strong { display: block; margin-bottom: 3px; color: var(--green-dark); font-size: 13px; }
+    .contact-point span { display: block; color: var(--text-soft); font-size: 13px; line-height: 1.6; }
+    .contact-point a { color: var(--green-mid); text-decoration: underline; text-underline-offset: 2px; }
 
-    .contact-point span {
-      display: block;
-      color: var(--text-soft);
-      font-size: 13px;
-      line-height: 1.6;
-    }
+    .form-grid { display: grid; gap: 11px; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+    .form-note { font-size: 12px; color: var(--text-soft); line-height: 1.6; }
 
-    .form-grid {
-      display: grid;
-      gap: 12px;
-    }
-
-    .form-row-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .fake-submit {
-      border: none;
-      cursor: pointer;
-    }
-
-    .form-note {
-      font-size: 12px;
-      color: var(--text-soft);
-      line-height: 1.6;
-    }
-
-    .site-footer {
-      padding: 28px 0 42px;
-    }
+    /* Footer */
+    .site-footer { padding: 26px 0 40px; }
 
     .footer-shell {
-      background: var(--bg-card);
-      border-radius: 22px;
-      box-shadow: var(--shadow-md);
-      border: 1px solid rgba(39, 80, 10, 0.08);
-      padding: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
+      background: var(--bg-card); border-radius: 20px;
+      box-shadow: var(--shadow-md); border: 1px solid rgba(39,80,10,0.08);
+      padding: 20px 26px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; flex-wrap: wrap;
     }
 
-    .footer-copy {
-      font-size: 13px;
-      color: var(--text-soft);
-      line-height: 1.6;
-    }
+    .footer-copy { font-size: 13px; color: var(--text-soft); line-height: 1.7; }
+    .footer-copy a { color: var(--green-mid); }
 
-    .footer-links {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
+    .footer-links { display: flex; gap: 14px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: var(--green-dark); font-weight: 700; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--green-light); }
 
-    .footer-links a {
-      font-size: 13px;
-      color: var(--green-dark);
-      font-weight: 700;
-    }
-
+    /* Responsive */
     @media (max-width: 1080px) {
-      .hero-grid,
-      .calculator-stage,
-      .contact-grid,
-      .split-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .calculator-side {
-        position: static;
-      }
+      .hero-grid, .calculator-stage, .split-grid, .contact-grid { grid-template-columns: 1fr; }
+      .calculator-side { position: static; }
     }
 
     @media (max-width: 760px) {
-      .container {
-        width: min(calc(100% - 20px), var(--content-width));
-      }
-
-      .nav {
-        align-items: flex-start;
-        flex-direction: column;
-        padding: 14px 0;
-      }
-
-      .nav-links {
-        width: 100%;
-        justify-content: flex-start;
-      }
-
-      .hero-copy,
-      .hero-panel,
-      .contact-card {
-        padding: 22px;
-      }
-
-      .hero-points,
-      .info-grid,
-      .form-row-2 {
-        grid-template-columns: 1fr;
-      }
-
-      .calc-title {
-        font-size: 24px;
-      }
-
-      .field-row,
-      .s-body {
-        grid-template-columns: 1fr;
-      }
-
-      .pay-row:first-child {
-        padding-right: 0;
-        border-right: none;
-        border-bottom: 0.5px solid var(--line);
-      }
-
-      .pay-row:last-child {
-        padding-left: 0;
-      }
-
-      .s-hd {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .s-total {
-        white-space: normal;
-      }
-
-      .form-wrap {
-        margin: -16px 0.75rem 0;
-        padding: 1.25rem 1rem 0;
-      }
+      .container { width: min(calc(100% - 20px), var(--content-width)); }
+      .nav { flex-direction: column; align-items: flex-start; padding: 12px 0; }
+      .nav-links { width: 100%; justify-content: flex-start; }
+      .hero-copy, .hero-panel { padding: 22px; }
+      .info-grid, .form-row-2 { grid-template-columns: 1fr; }
+      .calc-title { font-size: 24px; }
+      .field-row, .s-body { grid-template-columns: 1fr; }
+      .pay-row:first-child { padding-right: 0; border-right: none; border-bottom: 1px solid var(--line); }
+      .pay-row:last-child { padding-left: 0; }
+      .s-hd { flex-direction: column; align-items: flex-start; }
+      .s-total { white-space: normal; }
+      .form-wrap { margin: -18px 0.75rem 0; padding: 1.25rem 1rem 0; }
+      .calc-btn { width: calc(100% - 1.5rem); margin-left: 0.75rem; margin-right: 0.75rem; }
+      .results { padding: 0 0.75rem; }
     }
   </style>
 </head>
 <body>
+
   <header class="site-header">
     <div class="container nav">
       <a class="brand" href="#top">
@@ -1148,15 +594,18 @@
       <nav class="nav-links">
         <a href="#rechner">Rechner</a>
         <a href="#ablauf">So funktioniert es</a>
-        <a href="#fragen">Fragen</a>
+        <a href="#fragen">FAQ</a>
         <a href="#kontakt" class="nav-cta">Kontakt</a>
       </nav>
     </div>
   </header>
 
   <main id="top">
+
+    <!-- Hero -->
     <section class="hero">
       <div class="container hero-grid">
+
         <div class="hero-copy">
           <div class="eyebrow">Drohnenunterstützte Kitzrettung</div>
           <h1>Faire Beiträge für einen sinnvollen Einsatz</h1>
@@ -1166,8 +615,6 @@
           <div class="hero-actions">
             <a class="btn btn-primary" href="#rechner">Zum Rechner</a>
             <a class="btn btn-secondary" href="#ablauf">Mehr erfahren</a>
-         
-            </div>
           </div>
         </div>
 
@@ -1191,7 +638,7 @@
               <div class="panel-icon">🗺️</div>
               <div>
                 <strong>Flächen realistisch bewertet</strong>
-                <span>Mehrere Teilflächen verursachen mehr Aufwand bei Planung, Wechseln und Einsatzdurchführung.</span>
+                <span>Mehrere Teilflächen bedeuten mehr Aufwand bei Planung, Wechseln und Einsatzdurchführung.</span>
               </div>
             </div>
             <div class="panel-item">
@@ -1203,78 +650,50 @@
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-kicker">Auf einen Blick</div>
-          <h2 class="section-title">Was diese Seite leistet</h2>
-          <p class="section-text">
-            
-          </p>
-        </div>
-        <div class="info-grid">
-          <article class="info-card">
-            <div class="info-icon">📐</div>
-            <h3>Nachvollziehbare Berechnung</h3>
-            <p>Jede Stufe zeigt sichtbar, wie sich der Betrag aus Fläche, Teilflächen und Anfahrt zusammensetzt.</p>
-          </article>
-          <article class="info-card">
-            <div class="info-icon">🤝</div>
-            <h3>Faire Kommunikation</h3>
-            <p>Landwirte, Jagdausübungsberechtigte und Unterstützende erhalten eine klare Orientierung ohne Diskussionen aus dem Bauch heraus.</p>
-          </article>
-          <article class="info-card">
-            <div class="info-icon">🌐</div>
-            <h3>Einfach online stellen</h3>
-            
-          </article>
-        </div>
-      </div>
-    </section>
-
+    <!-- Rechner -->
     <section class="section calculator-shell" id="rechner">
       <div class="container calculator-stage">
+
         <aside class="calculator-side">
           <div class="side-card side-highlight">
             <h3>Hinweis zur Nutzung</h3>
-            <p>
-              Der Rechner liefert Orientierungswerte. Er soll eine faire Grundlage schaffen und keine starre Gebührenordnung darstellen.
-            </p>
+            <p>Der Rechner liefert Orientierungswerte. Er soll eine faire Grundlage schaffen, keine starre Gebührenordnung.</p>
           </div>
           <div class="side-card">
             <h3>Berücksichtigt werden</h3>
             <ul>
               <li>Gesamtfläche in Hektar</li>
               <li>Anzahl der einzelnen Flächen</li>
-              <li>Entfernung des Teams in einfacher Strecke</li>
+              <li>Entfernung des Teams (einfache Strecke)</li>
               <li>Anteil für Organisation und Vereinsstruktur</li>
             </ul>
           </div>
           <div class="side-card">
             <h3>Empfehlung</h3>
-            <p>
-              Die unterstützende Stufe ist optisch hervorgehoben, weil sie den nachhaltigen Betrieb von Technik, Ausbildung und Vereinsarbeit am besten mitträgt.
-            </p>
+            <p>Die unterstützende Stufe ist hervorgehoben, weil sie den nachhaltigen Betrieb von Technik, Ausbildung und Vereinsarbeit am besten mitträgt.</p>
           </div>
         </aside>
 
         <div class="calculator-card">
           <div class="calculator-wrap">
+
             <div class="calc-hero">
               <div class="calc-pattern"></div>
               <div class="calc-hero-inner">
                 <div class="calc-tag">Kitzrettung per Drohne</div>
                 <div class="calc-title">Spendenrechner</div>
-                <div class="calc-sub">Berechne in Sekunden, was ein sinnvoller Beitrag für einen Einsatz ist.</div>
+                <div class="calc-sub">Berechne in Sekunden, was ein sinnvoller Beitrag für deinen Einsatz ist.</div>
                 <div class="calc-divider"></div>
               </div>
             </div>
 
             <div class="form-wrap">
               <div class="steps">
+
                 <div class="step-row">
                   <div class="step-num">1</div>
                   <div class="step-body">
@@ -1316,21 +735,23 @@
                   <div class="step-num">3</div>
                   <div class="step-body">
                     <div class="step-label">Wie weit ist das Drohnenteam entfernt?</div>
-                    <input type="number" id="entfernung" min="0" step="1" placeholder="Entfernung in km (einfache Strecke)" style="width:100%" />
+                    <input type="number" id="entfernung" min="0" step="1" placeholder="Entfernung in km (einfache Strecke)" />
                   </div>
                 </div>
+
               </div>
 
-              <div class="error" id="error">Bitte alle Felder ausfüllen und gültige Werte eingeben.</div>
+              <p class="error" id="error" role="alert">Bitte alle Felder ausfüllen und gültige Werte eingeben.</p>
 
-              <div class="calc-btn" id="calc-btn">
+              <button class="calc-btn" id="calc-btn" type="button" aria-label="Spendenbetrag berechnen">
                 <span class="calc-btn-text">Spende berechnen</span>
-                <div class="calc-btn-arrow">→</div>
-              </div>
+                <div class="calc-btn-arrow" aria-hidden="true">→</div>
+              </button>
 
-              <div class="results-label" id="results-label">Deine Spendenoptionen</div>
+              <div class="results-label" id="results-label" aria-live="polite">Deine Spendenoptionen</div>
 
               <div class="results" id="results">
+
                 <div class="stufe-card stufe-basis">
                   <div class="s-hd">
                     <div class="s-hd-left">
@@ -1430,48 +851,46 @@
                     <div class="bd" id="unts-bd-km"></div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
+    <!-- So funktioniert es -->
     <section class="section" id="ablauf">
       <div class="container">
         <div class="section-head">
           <div class="section-kicker">So funktioniert es</div>
-          <h2 class="section-title">Einfach, nachvollziehbar und direkt einsetzbar</h2>
+          <h2 class="section-title">Einfach, nachvollziehbar, direkt einsetzbar</h2>
           <p class="section-text">
-            Der Spendenrechner dient als einfache Orientierung für einen fairen Beitrag bei einem Kitzrettungseinsatz. Nach Eingabe von Bundesland, Flächengröße, Anzahl der Einzelflächen und Entfernung des Drohnenteams wird automatisch ein realistischer Betrag ermittelt.
-
-Die Berechnung berücksichtigt sowohl den direkten Aufwand des Einsatzes als auch organisatorische und technische Kosten. Dazu gehören insbesondere Anfahrt, Vorbereitung, Koordination sowie der Einsatz und die Instandhaltung der Drohnentechnik.
-
-Das Ergebnis wird in drei Stufen dargestellt. Diese reichen von einer rein kostendeckenden Variante bis hin zu einer unterstützenden Option, die zusätzlich die nachhaltige Arbeit von Verein und Einsatzteam stärkt.
-
-Der Rechner stellt keine verbindliche Preisvorgabe dar, sondern eine nachvollziehbare Grundlage für eine faire und transparente Abstimmung zwischen allen Beteiligten.
+            Nach Eingabe von Bundesland, Flächengröße, Anzahl der Einzelflächen und Entfernung des Drohnenteams wird automatisch ein realistischer Betrag ermittelt. Die Berechnung berücksichtigt sowohl den direkten Aufwand des Einsatzes als auch organisatorische und technische Kosten. Das Ergebnis erscheint in drei Stufen, von einer rein kostendeckenden Variante bis hin zu einer Option, die zusätzlich die nachhaltige Arbeit des Einsatzteams stärkt.
           </p>
         </div>
         <div class="info-grid">
           <article class="info-card">
             <div class="info-icon">1</div>
             <h3>Ort und Fläche eintragen</h3>
-            <p>Das Bundesland ist bereits vorbereitet, damit später bei Bedarf regionale Sätze hinterlegt werden können.</p>
+            <p>Bundesland, Gesamtfläche in Hektar und Anzahl der Einzelflächen eingeben. Mehrere Flächen bedeuten mehr Planungsaufwand und werden entsprechend berücksichtigt.</p>
           </article>
           <article class="info-card">
             <div class="info-icon">2</div>
-            <h3>Teilflächen und Anfahrt ergänzen</h3>
-            <p>Mehrere Einzelflächen und längere Anfahrten erhöhen den Aufwand. Das wird in der Berechnung sichtbar berücksichtigt.</p>
+            <h3>Anfahrt ergänzen</h3>
+            <p>Die einfache Strecke in Kilometern eingeben. Hin- und Rückfahrt sowie zwei Fahrzeuge werden automatisch eingerechnet.</p>
           </article>
           <article class="info-card">
             <div class="info-icon">3</div>
             <h3>Stufe auswählen</h3>
-            <p>Ausgegeben werden drei Optionen von kostendeckend bis unterstützend. So kann der Betrag bewusst gewählt werden.</p>
+            <p>Drei Optionen von kostendeckend bis unterstützend. Die Aufteilung in Barzahlung und Überweisung wird für jede Stufe direkt mitangezeigt.</p>
           </article>
         </div>
       </div>
     </section>
 
+    <!-- FAQ -->
     <section class="section" id="fragen">
       <div class="container split-grid">
         <div>
@@ -1479,38 +898,76 @@ Der Rechner stellt keine verbindliche Preisvorgabe dar, sondern eine nachvollzie
             <div class="section-kicker">Häufige Fragen</div>
             <h2 class="section-title">Kurze Antworten auf typische Rückfragen</h2>
             <p class="section-text">
-              Diese Texte kannst du später noch an euren Verein anpassen. Für den ersten GitHub Pages Stand liefern sie bereits einen soliden Rahmen.
+              Alle Angaben sind Richtwerte. Der Rechner ist kein Ersatz für eine individuelle Absprache, sondern eine nachvollziehbare Gesprächsgrundlage.
             </p>
           </div>
         </div>
         <div class="faq-list">
           <details open>
             <summary>Ist das eine verbindliche Preisvorgabe?</summary>
-            <p>Nein. Der Rechner dient als Orientierung für einen fairen Beitrag. Er ersetzt keine individuelle Absprache vor Ort.</p>
+            <p>Nein. Der Rechner liefert eine Orientierung für einen fairen Beitrag. Er ersetzt keine individuelle Absprache vor Ort, sondern schafft eine transparente Grundlage für das Gespräch zwischen Landwirt, Jäger und Einsatzteam.</p>
+          </details>
+          <details>
+            <summary>Was bedeuten die drei Stufen?</summary>
+            <p>"Kostendeckend" deckt den reinen Aufwand ab. "Empfohlen" rundet auf einen glatten Betrag und schafft einen kleinen Puffer. "Unterstützend" ermöglicht darüber hinaus den Erhalt der Ausrüstung und die Ausbildung des Teams.</p>
           </details>
           <details>
             <summary>Warum wird zwischen Barzahlung und Überweisung getrennt?</summary>
-            <p>Die Aufteilung macht sichtbar, welcher Teil direkt beim Einsatzteam für Fahrt und Vorbereitung bleibt und welcher Teil der Vereinsarbeit zugutekommt.</p>
+            <p>Der Barbetrag deckt direkte Kosten wie Sprit und Vorbereitung ab, die unmittelbar beim Einsatzteam anfallen. Der Überweisungsanteil kommt dem Verein, der Technik und der Organisation zugute.</p>
           </details>
           <details>
-            <summary>Kann die Berechnung später angepasst werden?</summary>
-            <p>Ja. Die Sätze liegen zentral im JavaScript und können jederzeit verändert oder je Bundesland unterschiedlich hinterlegt werden.</p>
+            <summary>Wie werden mehrere Teilflächen berechnet?</summary>
+            <p>Jede zusätzliche Einzelfläche erhöht den Planungsaufwand und erfordert Umrüst- und Transportzeiten zwischen den Flächen. Deshalb wird pro Einzelfläche eine Pauschale auf den Vereinsanteil aufgerechnet.</p>
           </details>
           <details>
-            <summary>Lässt sich die Seite später erweitern?</summary>
-            <p>Ja. Du kannst problemlos ein Impressum, Datenschutz, echte Kontaktmöglichkeiten, Logos, Bilder oder weitere Informationsseiten ergänzen.</p>
+            <summary>Warum fließen zwei Fahrzeuge in die Anfahrt ein?</summary>
+            <p>Ein Drohneneinsatz zur Kitzrettung erfordert mindestens zwei Personen und in der Regel zwei Fahrzeuge, da Geräte, Batterien und Bergungsausrüstung getrennt transportiert werden.</p>
           </details>
         </div>
       </div>
     </section>
 
-  
+    <!-- Kontakt -->
+    <section class="section" id="kontakt">
+      <div class="container">
+        <div class="contact-wrap">
+          <div class="contact-grid">
+            <div>
+              <div class="section-kicker">Kontakt</div>
+              <h2 class="section-title">Rückfragen oder Einsatzanfragen</h2>
+              <p class="section-text">
+                Bei Fragen zum Rechner, zu einem konkreten Einsatz oder zur Kitzrettung in deiner Region meld dich gerne direkt.
+              </p>
+              <div class="contact-points">
+                <div class="contact-point">
+                  <strong>E-Mail</strong>
+                  <span><a href="mailto:wildes_holstein@web.de">wildes_holstein@web.de</a></span>
+                </div>
+              </div>
+            </div>
+            <form class="form-grid" onsubmit="handleForm(event)">
+              <div class="form-row-2">
+                <input type="text" name="name" placeholder="Name" required />
+                <input type="email" name="email" placeholder="E-Mail" required />
+              </div>
+              <input type="text" name="betreff" placeholder="Betreff" required />
+              <textarea name="nachricht" placeholder="Nachricht"></textarea>
+              <button class="btn btn-primary" type="submit">Nachricht senden</button>
+              <p class="form-note">
+                Das Formular öffnet deinen E-Mail-Client mit den eingetragenen Angaben. Du erreichst mich auch direkt unter <a href="mailto:wildes_holstein@web.de" style="color: var(--green-mid);">wildes_holstein@web.de</a>.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <footer class="site-footer">
     <div class="container footer-shell">
       <div class="footer-copy">
-        Kitzrettung Spendenrechner. <br>
-      
+        Kitzrettung Schleswig-Holstein &nbsp;&middot;&nbsp; <a href="mailto:wildes_holstein@web.de">wildes_holstein@web.de</a>
       </div>
       <div class="footer-links">
         <a href="#top">Nach oben</a>
@@ -1536,19 +993,15 @@ Der Rechner stellt keine verbindliche Preisvorgabe dar, sondern eine nachvollzie
     function getK(bl) {
       const b = KONFIG.bundeslaender[bl] || {};
       return {
-        stufen: { ...KONFIG.stufen, ...(b.stufen || {}) },
-        teilflaechePauschale: b.teilflaechePauschale ?? KONFIG.teilflaechePauschale,
-        kmSatz: b.kmSatz ?? KONFIG.kmSatz,
+        stufen:                { ...KONFIG.stufen, ...(b.stufen || {}) },
+        teilflaechePauschale:  b.teilflaechePauschale  ?? KONFIG.teilflaechePauschale,
+        kmSatz:                b.kmSatz                ?? KONFIG.kmSatz,
         vorbereitungsPauschale: b.vorbereitungsPauschale ?? KONFIG.vorbereitungsPauschale
       };
     }
 
     function fmt(n) {
-      return n.toLocaleString('de-DE', {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 2
-      });
+      return n.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 });
     }
 
     function fill(id, v) {
@@ -1556,9 +1009,7 @@ Der Rechner stellt keine verbindliche Preisvorgabe dar, sondern eine nachvollzie
       if (el) el.textContent = v;
     }
 
-    function rundeAuf5Euro(n) {
-      return Math.ceil(n / 5) * 5;
-    }
+    function rundeAuf5Euro(n) { return Math.ceil(n / 5) * 5; }
 
     function berechnen() {
       const bl = document.getElementById('bundesland').value;
@@ -1579,37 +1030,50 @@ Der Rechner stellt keine verbindliche Preisvorgabe dar, sondern eine nachvollzie
 
       err.classList.remove('on');
 
-      const k = getK(bl);
-      const tfB = tf * k.teilflaechePauschale;
-      const kmB = km * 2 * 2 * k.kmSatz;
-      const vorbereitungsB = k.vorbereitungsPauschale;
-      const barB = kmB + vorbereitungsB;
+      const k    = getK(bl);
+      const tfB  = tf * k.teilflaechePauschale;
+      const kmB  = km * 2 * 2 * k.kmSatz;
+      const vorB = k.vorbereitungsPauschale;
+      const barB = kmB + vorB;
 
       const tfLabel = tf === 1 ? '1 Einzelfläche' : tf + ' Einzelflächen';
       const kmLabel = km === 1 ? '1 km einfache Strecke' : km + ' km einfache Strecke';
 
       ['basis', 'empf', 'unts'].forEach(s => {
-        const haV = k.stufen[s];
-        const flB = fl * haV;
-        const bankRaw = flB + tfB;
-        const gesRaw = bankRaw + barB;
-        const ges = (s === 'empf' || s === 'unts') ? rundeAuf5Euro(gesRaw) : gesRaw;
-        const bankB = ges - barB;
+        const haV    = k.stufen[s];
+        const flB    = fl * haV;
+        const gesRaw = flB + tfB + barB;
+        const ges    = (s === 'empf' || s === 'unts') ? rundeAuf5Euro(gesRaw) : gesRaw;
+        const bankB  = ges - barB;
 
-        fill(s + '-ha', haV.toFixed(2).replace('.', ',') + ' €/ha');
-        fill(s + '-total', fmt(ges));
-        fill(s + '-bar', fmt(barB));
-        fill(s + '-bar-desc', fmt(kmB) + ' Spritgeld für zwei Fahrzeuge + ' + fmt(vorbereitungsB) + ' Vorbereitungspauschale');
-        fill(s + '-bank', fmt(bankB));
-        fill(s + '-bank-desc', 'Restbetrag für Verein, Technik und Organisation');
-        fill(s + '-bd-fl', fmt(flB) + ' für die Fläche');
-        fill(s + '-bd-tf', fmt(tfB) + ' für ' + tfLabel);
-        fill(s + '-bd-km', fmt(kmB) + ' für ' + kmLabel);
+        fill(s + '-ha',        haV.toFixed(2).replace('.', ',') + ' €/ha');
+        fill(s + '-total',     fmt(ges));
+        fill(s + '-bar',       fmt(barB));
+        fill(s + '-bar-desc',  fmt(kmB) + ' Spritgeld (2 Fahrzeuge) + ' + fmt(vorB) + ' Vorbereitung');
+        fill(s + '-bank',      fmt(bankB));
+        fill(s + '-bank-desc', 'Für Verein, Technik und Organisation');
+        fill(s + '-bd-fl',     fmt(flB) + ' für ' + fl + ' ha Fläche');
+        fill(s + '-bd-tf',     fmt(tfB) + ' für ' + tfLabel);
+        fill(s + '-bd-km',     fmt(kmB) + ' für ' + kmLabel);
       });
 
       res.classList.add('on');
       lbl.classList.add('on');
       res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function handleForm(e) {
+      e.preventDefault();
+      const f = e.target;
+      const body = encodeURIComponent(
+        'Name: ' + f.name.value.trim() +
+        '\nE-Mail: ' + f.email.value.trim() +
+        '\n\n' + f.nachricht.value.trim()
+      );
+      window.location.href =
+        'mailto:wildes_holstein@web.de' +
+        '?subject=' + encodeURIComponent(f.betreff.value.trim()) +
+        '&body=' + body;
     }
 
     document.getElementById('calc-btn').addEventListener('click', berechnen);
@@ -1618,27 +1082,24 @@ Der Rechner stellt keine verbindliche Preisvorgabe dar, sondern eine nachvollzie
       document.getElementById('flaeche').focus();
     });
 
-    document.getElementById('flaeche').addEventListener('change', function() {
+    document.getElementById('flaeche').addEventListener('change', function () {
       if (this.value) document.getElementById('teilflaechen').focus();
     });
 
-    document.getElementById('teilflaechen').addEventListener('change', function() {
+    document.getElementById('teilflaechen').addEventListener('change', function () {
       if (this.value) document.getElementById('entfernung').focus();
     });
 
-    document.getElementById('entfernung').addEventListener('change', function() {
+    document.getElementById('entfernung').addEventListener('change', function () {
       if (this.value !== '') berechnen();
     });
 
     document.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        const active = document.activeElement;
-        if (active && active.tagName !== 'TEXTAREA') {
-          berechnen();
-        }
+      if (e.key === 'Enter' && document.activeElement?.tagName !== 'TEXTAREA') {
+        berechnen();
       }
     });
   </script>
+
 </body>
 </html>
-
