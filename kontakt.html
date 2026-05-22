@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kontakt – Kitzrettung</title>
+  <meta name="description" content="Kontakt zur Kitzrettung Schleswig-Holstein – Fragen zum Rechner, zu einem konkreten Einsatz oder zur Kitzrettung in deiner Region." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a class="brand brand--logo" href="index.html">
+        <svg class="leaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 3C11.6 3 5 8.4 5 17c0 1.3.15 2.5.45 3.6.95-4.3 3.6-8.9 9.55-11.6-5.2 3.9-7.9 8.6-8.5 13H9c.5-1.2 1.2-2.3 2-3.3C19 17.4 22 10.6 21 3Z"/>
+        </svg>
+        <span class="logo-word">Kitzrettung<span class="dot-accent">.</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html">Rechner</a>
+        <a href="kontakt.html" class="nav-cta nav-cta--amber">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="subhero">
+      <div class="container">
+        <span class="subhero-eyebrow"><span class="dot"></span> Kontakt</span>
+        <h1 class="subhero-title">Rückfragen oder <span class="it">Einsatzanfragen</span></h1>
+        <p class="subhero-lead">
+          Bei Fragen zum Rechner, zu einem konkreten Einsatz oder zur Kitzrettung in deiner Region meld dich gerne direkt.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="contact-wrap">
+          <div class="contact-grid">
+            <div>
+              <div class="section-kicker">Schreib uns</div>
+              <p class="section-text">
+                Wir freuen uns über deine Nachricht – ob Anfrage, Feedback oder Hinweis zur Kitzrettung in deiner Region.
+              </p>
+              <div class="contact-points">
+                <div class="contact-point">
+                  <strong>E-Mail</strong>
+                  <span><a href="mailto:webmaster@kitzrettungsrechner.de">webmaster@kitzrettungsrechner.de</a></span>
+                </div>
+                <div class="contact-point">
+                  <strong>Region</strong>
+                  <span>Schleswig-Holstein und Umgebung</span>
+                </div>
+              </div>
+            </div>
+            <form class="form-grid" onsubmit="handleForm(event)">
+              <div class="form-row-2">
+                <input type="text" name="name" placeholder="Name" required />
+                <input type="email" name="email" placeholder="E-Mail" required />
+              </div>
+              <input type="text" name="betreff" placeholder="Betreff" required />
+              <textarea name="nachricht" placeholder="Nachricht"></textarea>
+              <button class="btn btn-primary" type="submit">Nachricht senden</button>
+              <p class="form-note">
+                Das Formular öffnet deinen E-Mail-Client mit den eingetragenen Angaben. Du erreichst mich auch direkt unter <a href="mailto:webmaster@kitzrettungsrechner.de" style="color: var(--green-mid);">webmaster@kitzrettungsrechner.de</a>.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <div class="footer-copy">
+        <a href="mailto:webmaster@kitzrettungsrechner.de">webmaster@kitzrettungsrechner.de</a>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html">Rechner</a>
+        <a href="kontakt.html">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function handleForm(e) {
+      e.preventDefault();
+      const f = e.target;
+      const body = encodeURIComponent(
+        'Name: ' + f.name.value.trim() +
+        '\nE-Mail: ' + f.email.value.trim() +
+        '\n\n' + f.nachricht.value.trim()
+      );
+      window.location.href =
+        'mailto:webmaster@kitzrettungsrechner.de' +
+        '?subject=' + encodeURIComponent(f.betreff.value.trim()) +
+        '&body=' + body;
+    }
+  </script>
+
+</body>
+</html>

@@ -3,960 +3,107 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kitzrettung Spendenrechner</title>
-  <meta name="description" content="Spendenrechner für Kitzrettungseinsätze mit Drohne. Schnell berechnen, welcher Beitrag für Fläche, Anfahrt und Organisation sinnvoll ist." />
-
-  <style>
-    :root {
-      --bg-main: #eef2e8;
-      --bg-card: #ffffff;
-      --bg-soft: #f7f8f5;
-      --text-main: #1f2937;
-      --text-soft: #6b7280;
-      --line: #e5e7eb;
-      --line-strong: #c8d6b3;
-      --green-dark: #27500A;
-      --green-mid: #3B6D11;
-      --green-light: #639922;
-      --green-pale: #EAF3DE;
-      --green-accent: #97C459;
-      --orange-soft: #FAEEDA;
-      --orange-line: #EF9F27;
-      --red-soft: #FCEBEB;
-      --red-line: #F09595;
-      --blue-soft: #E6F1FB;
-      --blue-strong: #185FA5;
-      --shadow-lg: 0 20px 50px rgba(0,0,0,0.08);
-      --shadow-md: 0 10px 30px rgba(0,0,0,0.06);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --content-width: 1180px;
-      --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      --font-display: Georgia, 'Times New Roman', serif;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--bg-main);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
-      line-height: 1.5;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    .container {
-      width: min(calc(100% - 32px), var(--content-width));
-      margin: 0 auto;
-    }
-
-    /* Header */
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      backdrop-filter: blur(12px);
-      background: rgba(238,242,232,0.88);
-      border-bottom: 1px solid rgba(39,80,10,0.08);
-    }
-
-    .nav {
-      min-height: 70px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .brand { display: flex; align-items: center; gap: 12px; }
-
-    .brand-mark {
-      width: 40px; height: 40px;
-      border-radius: 11px;
-      background: linear-gradient(135deg, var(--green-dark), var(--green-light));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 19px; flex-shrink: 0;
-    }
-
-    .brand-title { font-size: 15px; font-weight: 700; color: var(--green-dark); }
-    .brand-sub { font-size: 12px; color: var(--text-soft); margin-top: 1px; }
-
-    .nav-links {
-      display: flex; align-items: center;
-      gap: 18px; flex-wrap: wrap; justify-content: flex-end;
-    }
-
-    .nav-links a { font-size: 14px; color: var(--text-soft); transition: color 0.15s; }
-    .nav-links a:hover { color: var(--green-dark); }
-
-    .nav-cta {
-      padding: 9px 18px; border-radius: 999px;
-      background: var(--green-dark); color: var(--green-pale) !important;
-      font-weight: 700; transition: background 0.15s;
-    }
-    .nav-cta:hover { background: var(--green-light); }
-
-    /* Hero */
-    .hero { padding: 44px 0 28px; }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 24px; align-items: stretch;
-    }
-
-    .hero-copy {
-      background: linear-gradient(180deg, #fff 0%, #f8fbf4 100%);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(39,80,10,0.08);
-      padding: 34px;
-      display: flex; flex-direction: column; justify-content: center;
-    }
-
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 5px 12px; border-radius: 999px;
-      background: var(--green-pale); color: var(--green-mid);
-      font-size: 12px; font-weight: 700; letter-spacing: 0.03em;
-      margin-bottom: 16px; width: fit-content;
-    }
-
-    .hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(28px, 3.6vw, 50px);
-      line-height: 1.1; color: var(--green-dark);
-    }
-
-    .hero-lead {
-      font-size: 16px; color: var(--text-soft);
-      margin-top: 16px; max-width: 54ch; line-height: 1.75;
-    }
-
-    .hero-actions {
-      display: flex; align-items: center;
-      gap: 12px; flex-wrap: wrap; margin-top: 24px;
-    }
-
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      gap: 8px; min-height: 46px; padding: 0 20px;
-      border-radius: 13px; font-size: 15px; font-weight: 700;
-      font-family: var(--font-body);
-      transition: transform 0.15s, background 0.15s;
-      border: none; cursor: pointer;
-    }
-
-    .btn:hover { transform: translateY(-1px); }
-    .btn-primary { background: var(--green-dark); color: var(--green-pale); }
-    .btn-primary:hover { background: var(--green-light); }
-    .btn-secondary { border: 1px solid var(--line-strong) !important; background: #fff; color: var(--green-dark); }
-
-    .hero-panel {
-      background: linear-gradient(160deg, #2e5e0e 0%, #1a3a06 100%);
-      color: var(--green-pale);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(39,80,10,0.08);
-      padding: 30px;
-      display: flex; flex-direction: column; justify-content: space-between;
-      position: relative; overflow: hidden;
-    }
-
-    .hero-panel::after {
-      content: ""; position: absolute; inset: 0;
-      background-image:
-        radial-gradient(circle at 20% 20%, rgba(234,243,222,0.08), transparent 30%),
-        radial-gradient(circle at 80% 30%, rgba(234,243,222,0.06), transparent 25%),
-        radial-gradient(circle at 60% 80%, rgba(234,243,222,0.05), transparent 30%);
-      pointer-events: none;
-    }
-
-    .hero-panel > * { position: relative; z-index: 1; }
-
-    .panel-topline {
-      font-size: 11px; letter-spacing: 0.08em;
-      text-transform: uppercase; color: var(--green-accent); font-weight: 700;
-    }
-
-    .panel-title {
-      margin-top: 10px;
-      font-family: var(--font-display);
-      font-size: 25px; line-height: 1.2;
-    }
-
-    .panel-text { margin-top: 12px; font-size: 15px; line-height: 1.75; color: #c6ddb1; }
-
-    .panel-list { margin-top: 24px; display: grid; gap: 10px; }
-
-    .panel-item {
-      display: flex; gap: 12px; align-items: flex-start;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px; padding: 13px;
-    }
-
-    .panel-icon {
-      width: 32px; height: 32px; border-radius: 10px;
-      background: rgba(234,243,222,0.14);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
-
-    .panel-item strong { display: block; font-size: 13px; margin-bottom: 3px; }
-    .panel-item span { font-size: 13px; color: #d8e8c9; line-height: 1.5; }
-
-    /* Sections */
-    .section { padding: 32px 0; }
-    .section-head { margin-bottom: 18px; }
-
-    .section-kicker {
-      font-size: 11px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.08em;
-      color: var(--green-light); margin-bottom: 8px;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(22px, 2.6vw, 32px);
-      line-height: 1.15; color: var(--green-dark);
-    }
-
-    .section-text {
-      margin-top: 10px; max-width: 68ch;
-      font-size: 15px; color: var(--text-soft); line-height: 1.75;
-    }
-
-    /* Info Grid */
-    .info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-
-    .info-card {
-      background: var(--bg-card); border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md); border: 1px solid rgba(39,80,10,0.08);
-      padding: 22px;
-    }
-
-    .info-icon {
-      width: 44px; height: 44px; border-radius: 13px;
-      background: var(--green-pale); color: var(--green-mid);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; margin-bottom: 13px;
-    }
-
-    .info-card h3 { font-size: 16px; color: var(--green-dark); margin-bottom: 7px; }
-    .info-card p { font-size: 14px; color: var(--text-soft); line-height: 1.7; }
-
-    /* Calculator */
-    .calculator-shell {
-      background: linear-gradient(180deg, #f6f9f1 0%, #eef2e8 100%);
-      border-top: 1px solid rgba(39,80,10,0.06);
-      border-bottom: 1px solid rgba(39,80,10,0.06);
-    }
-
-    .calculator-stage {
-      display: grid; grid-template-columns: 0.9fr 1.1fr;
-      gap: 22px; align-items: start;
-    }
-
-    .calculator-side { position: sticky; top: 88px; display: grid; gap: 14px; }
-
-    .side-card {
-      background: var(--bg-card); border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md); border: 1px solid rgba(39,80,10,0.08);
-      padding: 18px;
-    }
-
-    .side-card h3 { font-size: 16px; color: var(--green-dark); margin-bottom: 9px; }
-    .side-card p, .side-card li { font-size: 14px; color: var(--text-soft); line-height: 1.7; }
-    .side-card ul { padding-left: 17px; display: grid; gap: 5px; }
-
-    .side-highlight { background: linear-gradient(160deg, var(--green-dark), #1a3a06); }
-    .side-highlight h3 { color: var(--green-pale); }
-    .side-highlight p { color: #d5e6c4; }
-
-    .calculator-card {
-      background: var(--bg-card); border-radius: 24px;
-      overflow: hidden; box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(39,80,10,0.08);
-    }
-
-    .calculator-wrap { padding: 0 0 2.5rem; }
-
-    .calc-hero {
-      text-align: center;
-      background: linear-gradient(160deg, #2e5e0e 0%, #1a3a06 100%);
-      padding: 2.2rem 2rem 2.5rem;
-      position: relative; overflow: hidden;
-    }
-
-    .calc-pattern {
-      position: absolute; inset: 0; opacity: 0.04;
-      background-image:
-        repeating-linear-gradient(45deg, #EAF3DE 0px, #EAF3DE 1px, transparent 1px, transparent 14px),
-        repeating-linear-gradient(-45deg, #EAF3DE 0px, #EAF3DE 1px, transparent 1px, transparent 14px);
-    }
-
-    .calc-hero-inner { position: relative; }
-
-    .calc-tag {
-      display: inline-block;
-      background: rgba(255,255,255,0.12); color: #C0DD97;
-      font-size: 11px; padding: 4px 14px; border-radius: 99px;
-      margin-bottom: 12px; letter-spacing: 0.05em; font-weight: 700;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .calc-title {
-      font-family: var(--font-display);
-      font-size: 28px; color: var(--green-pale); line-height: 1.2;
-    }
-
-    .calc-sub { font-size: 14px; color: #a8cc80; margin-top: 8px; line-height: 1.6; }
-
-    .calc-divider {
-      width: 30px; height: 2px;
-      background: var(--green-accent);
-      margin: 14px auto 0; border-radius: 2px; opacity: 0.6;
-    }
-
-    .form-wrap {
-      background: #fff; border-radius: 14px;
-      padding: 1.5rem 1.25rem 0;
-      margin: -22px 1rem 0;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
-      position: relative;
-    }
-
-    .steps { display: flex; flex-direction: column; }
-
-    .step-row {
-      display: flex; gap: 16px; align-items: flex-start;
-      padding: 1rem 0; border-bottom: 1px solid var(--line);
-    }
-
-    .step-row:last-child { border-bottom: none; }
-
-    .step-num {
-      width: 26px; height: 26px; border-radius: 50%;
-      background: var(--green-pale); color: var(--green-mid);
-      font-size: 12px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; margin-top: 4px;
-      border: 1.5px solid #C0DD97;
-    }
-
-    .step-body { flex: 1; min-width: 0; }
-    .step-label { font-size: 13px; color: var(--text-soft); margin-bottom: 8px; }
-
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-    input[type="number"],
-    input[type="text"],
-    input[type="email"],
-    select,
-    textarea {
-      width: 100%; min-height: 44px; padding: 0 12px;
-      border: 1px solid var(--line-strong); border-radius: 8px;
-      background: #fff; color: #1a1a1a;
-      font-size: 14px; font-family: var(--font-body);
-      outline: none; appearance: none; -webkit-appearance: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
-    }
-
-    textarea { min-height: 110px; padding: 11px 12px; resize: vertical; }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--green-light);
-      box-shadow: 0 0 0 3px rgba(99,153,34,0.14);
-    }
-
-    .calc-btn {
-      width: calc(100% - 2.5rem);
-      margin: 1.4rem 1.25rem 0;
-      height: 48px; background: var(--green-dark);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      cursor: pointer; transition: background 0.15s, transform 0.15s;
-      user-select: none; border: none;
-    }
-
-    .calc-btn:hover { background: var(--green-light); }
-    .calc-btn:active { transform: scale(0.99); }
-
-    .calc-btn-text {
-      font-size: 15px; font-weight: 700;
-      font-family: var(--font-body); color: var(--green-pale);
-    }
-
-    .calc-btn-arrow {
-      width: 22px; height: 22px; border-radius: 50%;
-      background: rgba(234,243,222,0.18);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--green-pale); font-size: 13px;
-    }
-
-    .error {
-      font-size: 13px; color: #A32D2D;
-      background: var(--red-soft); border: 1px solid var(--red-line);
-      border-radius: 8px; padding: 8px 12px;
-      margin: 10px 1.25rem 0; display: none;
-    }
-
-    .error.on { display: block; }
-
-    .results-label {
-      font-size: 11px; font-weight: 700; color: var(--text-soft);
-      letter-spacing: 0.07em; text-transform: uppercase;
-      margin: 1.75rem 1.25rem 0.7rem; display: none;
-    }
-
-    .results-label.on { display: block; }
-
-    .results {
-      display: none; flex-direction: column; gap: 10px;
-      padding: 0 1.25rem;
-    }
-
-    .results.on { display: flex; }
-
-    /* Stufen */
-    .stufe-card { border-radius: 16px; border: 1px solid; overflow: hidden; background: #fff; }
-
-    .stufe-basis { border-color: var(--red-line); }
-    .stufe-basis .s-hd { background: var(--red-soft); }
-    .stufe-basis .s-badge { background: #F7C1C1; color: #791F1F; }
-    .stufe-basis .s-ha, .stufe-basis .s-total { color: #A32D2D; }
-
-    .stufe-empf { border-color: var(--orange-line); }
-    .stufe-empf .s-hd { background: var(--orange-soft); }
-    .stufe-empf .s-badge { background: #FAC775; color: #633806; }
-    .stufe-empf .s-ha, .stufe-empf .s-total { color: #854F0B; }
-
-    .stufe-unts { border-color: var(--green-mid); border-width: 2px; }
-    .stufe-unts .s-hd { background: var(--green-dark); padding: 1rem 1.25rem; }
-    .stufe-unts .s-badge { background: var(--green-pale); color: var(--green-dark); }
-    .stufe-unts .s-ha { color: var(--green-accent); }
-    .stufe-unts .s-total { color: var(--green-pale); font-size: 24px; }
-
-    .rec-pill {
-      font-size: 10px; background: var(--green-light); color: var(--green-pale);
-      padding: 2px 9px; border-radius: 99px; margin-left: 4px; font-weight: 700;
-    }
-
-    .s-hd {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0.8rem 1.25rem; gap: 12px;
-    }
-
-    .s-hd-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .s-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 99px; }
-    .s-ha { font-size: 12px; font-weight: 700; }
-    .s-total { font-size: 20px; font-weight: 800; white-space: nowrap; }
-
-    .s-body {
-      background: #fff; padding: 0.7rem 1.25rem;
-      border-top: 1px solid var(--line);
-      display: grid; grid-template-columns: 1fr 1fr;
-    }
-
-    .pay-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; }
-    .pay-row:first-child { padding-right: 16px; border-right: 1px solid var(--line); }
-    .pay-row:last-child { padding-left: 16px; }
-
-    .pay-icon {
-      width: 27px; height: 27px; border-radius: 9px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; flex-shrink: 0; margin-top: 1px;
-    }
-
-    .pay-icon.bar { background: var(--orange-soft); }
-    .pay-icon.bank { background: var(--blue-soft); }
-
-    .pay-name { font-size: 12px; font-weight: 700; color: var(--text-main); }
-    .pay-desc { font-size: 11px; color: var(--text-soft); margin-top: 2px; line-height: 1.5; }
-    .pay-amount { font-size: 16px; font-weight: 800; margin-top: 4px; }
-    .bar-color { color: #854F0B; }
-    .bank-color { color: var(--blue-strong); }
-
-    .bdown {
-      background: var(--bg-soft); border-top: 1px solid var(--line);
-      padding: 7px 1.25rem; display: flex; flex-direction: column; gap: 2px;
-    }
-
-    .bd { font-size: 11px; color: var(--text-soft); }
-
-    /* FAQ */
-    .split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .faq-list { display: grid; gap: 12px; }
-
-    details {
-      background: var(--bg-card); border: 1px solid rgba(39,80,10,0.08);
-      border-radius: 15px; box-shadow: var(--shadow-md); padding: 15px 18px;
-    }
-
-    summary {
-      cursor: pointer; list-style: none;
-      font-size: 15px; font-weight: 700; color: var(--green-dark);
-      display: flex; align-items: center; justify-content: space-between; gap: 10px;
-    }
-
-    summary::after {
-      content: "+"; font-size: 18px; font-weight: 400;
-      color: var(--green-light); flex-shrink: 0; transition: transform 0.2s;
-    }
-
-    details[open] summary::after { transform: rotate(45deg); }
-    summary::-webkit-details-marker { display: none; }
-
-    details p { margin-top: 11px; color: var(--text-soft); font-size: 14px; line-height: 1.75; }
-
-    /* Kontakt */
-    .contact-wrap {
-      background: linear-gradient(180deg, #fff 0%, #f8fbf4 100%);
-      border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(39,80,10,0.08); padding: 32px;
-    }
-
-    .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 24px; align-items: start; }
-
-    .contact-points { display: grid; gap: 10px; margin-top: 18px; }
-
-    .contact-point {
-      background: #fff; border: 1px solid var(--line);
-      border-radius: 13px; padding: 13px 15px;
-    }
-
-    .contact-point strong { display: block; margin-bottom: 3px; color: var(--green-dark); font-size: 13px; }
-    .contact-point span { display: block; color: var(--text-soft); font-size: 13px; line-height: 1.6; }
-    .contact-point a { color: var(--green-mid); text-decoration: underline; text-underline-offset: 2px; }
-
-    .form-grid { display: grid; gap: 11px; }
-    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
-    .form-note { font-size: 12px; color: var(--text-soft); line-height: 1.6; }
-
-    /* Footer */
-    .site-footer { padding: 26px 0 40px; }
-
-    .footer-shell {
-      background: var(--bg-card); border-radius: 20px;
-      box-shadow: var(--shadow-md); border: 1px solid rgba(39,80,10,0.08);
-      padding: 20px 26px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 20px; flex-wrap: wrap;
-    }
-
-    .footer-copy { font-size: 13px; color: var(--text-soft); line-height: 1.7; }
-    .footer-copy a { color: var(--green-mid); }
-
-    .footer-links { display: flex; gap: 14px; flex-wrap: wrap; }
-    .footer-links a { font-size: 13px; color: var(--green-dark); font-weight: 700; transition: color 0.15s; }
-    .footer-links a:hover { color: var(--green-light); }
-
-    /* Responsive */
-    @media (max-width: 1080px) {
-      .hero-grid, .calculator-stage, .split-grid, .contact-grid { grid-template-columns: 1fr; }
-      .calculator-side { position: static; }
-    }
-
-    @media (max-width: 760px) {
-      .container { width: min(calc(100% - 20px), var(--content-width)); }
-      .nav { flex-direction: column; align-items: flex-start; padding: 12px 0; }
-      .nav-links { width: 100%; justify-content: flex-start; }
-      .hero-copy, .hero-panel { padding: 22px; }
-      .info-grid, .form-row-2 { grid-template-columns: 1fr; }
-      .calc-title { font-size: 24px; }
-      .field-row, .s-body { grid-template-columns: 1fr; }
-      .pay-row:first-child { padding-right: 0; border-right: none; border-bottom: 1px solid var(--line); }
-      .pay-row:last-child { padding-left: 0; }
-      .s-hd { flex-direction: column; align-items: flex-start; }
-      .s-total { white-space: normal; }
-      .form-wrap { margin: -18px 0.75rem 0; padding: 1.25rem 1rem 0; }
-      .calc-btn { width: calc(100% - 1.5rem); margin-left: 0.75rem; margin-right: 0.75rem; }
-      .results { padding: 0 0.75rem; }
-    }
-  </style>
+  <title>Kitzrettung – Rechner für den Drohneneinsatz vor der Mahd</title>
+  <meta name="description" content="Kostenlose Rechner für die Rehkitzrettung per Wärmebilddrohne: fairer Spendenbeitrag, Bodenauflösung, Geschwindigkeit, Flughöhe, Anzeigedauer und mehr." />
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="home">
 
-  <header class="site-header">
+  <header class="site-header" id="siteHeader">
     <div class="container nav">
-      <a class="brand" href="#top">
-        <div class="brand-mark">🦌</div>
-        <div class="brand-text">
-          <div class="brand-title">Kitzrettung Spendenrechner</div>
-          <div class="brand-sub">Klare Orientierung für faire Einsatzbeiträge</div>
-        </div>
+      <a class="brand brand--logo" href="index.html">
+        <svg class="leaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 3C11.6 3 5 8.4 5 17c0 1.3.15 2.5.45 3.6.95-4.3 3.6-8.9 9.55-11.6-5.2 3.9-7.9 8.6-8.5 13H9c.5-1.2 1.2-2.3 2-3.3C19 17.4 22 10.6 21 3Z"/>
+        </svg>
+        <span class="logo-word">Kitzrettung<span class="dot-accent">.</span></span>
       </a>
       <nav class="nav-links">
-        <a href="#rechner">Rechner</a>
-        <a href="#ablauf">So funktioniert es</a>
-        <a href="#fragen">FAQ</a>
-        <a href="impressum.html">Impressum</a>
-        <a href="#kontakt" class="nav-cta">Kontakt</a>
+        <a href="index.html" class="active">Start</a>
+        <a href="rechner.html">Rechner</a>
+        <a href="kontakt.html" class="nav-cta nav-cta--amber">Kontakt</a>
       </nav>
     </div>
   </header>
 
   <main id="top">
 
-    <!-- Hero -->
-    <section class="hero">
-      <div class="container hero-grid">
-
-        <div class="hero-copy">
-          <div class="eyebrow">Drohnenunterstützte Kitzrettung</div>
-          <h1>Faire Beiträge für einen sinnvollen Einsatz</h1>
-          <p class="hero-lead">
-            Dieser Rechner hilft dabei, für einen Kitzrettungseinsatz schnell einen nachvollziehbaren Spendenbetrag zu ermitteln. Berücksichtigt werden Fläche, Einzelflächen, Anfahrt und ein Anteil für Technik, Organisation und Vereinsarbeit.
+    <!-- Foto-Hero -->
+    <section class="photo-hero">
+      <div class="container">
+        <div class="ph-inner">
+          <span class="ph-eyebrow"><span class="dot"></span> Mahdsaison 2026</span>
+          <h1 class="ph-title">Jedes Kitz zählt.<br><span class="it">Jede Minute auch.</span></h1>
+          <p class="ph-lead">
+            Kostenlose Rechner für die Rehkitzrettung per Wärmebilddrohne – vom fairen Einsatzbeitrag bis zur Flugvorbereitung. Ohne Anmeldung, ohne Werbung, ohne Tracker.
           </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#rechner">Zum Rechner</a>
-            <a class="btn btn-secondary" href="#ablauf">Mehr erfahren</a>
+          <div class="ph-actions">
+            <a class="btn btn-amber" href="rechner.html">Zu den Rechnern</a>
+            <a class="btn btn-ghost-light" href="kontakt.html">Kontakt</a>
           </div>
         </div>
-
-        <div class="hero-panel">
-          <div>
-            <div class="panel-topline">Warum ein Rechner?</div>
-            <div class="panel-title">Klare Orientierung statt Bauchgefühl</div>
-            <p class="panel-text">
-              Viele Einsätze werden ehrenamtlich organisiert. Gleichzeitig entstehen reale Kosten für Anfahrt, Vorbereitung, Akkus, Technik, Schulung und Vereinsstruktur. Der Rechner schafft dafür eine einfache und faire Grundlage.
-            </p>
-          </div>
-          <div class="panel-list">
-            <div class="panel-item">
-              <div class="panel-icon">🚗</div>
-              <div>
-                <strong>Anfahrt mitgedacht</strong>
-                <span>Die Entfernung des Teams fließt direkt in den bar zu zahlenden Anteil ein.</span>
-              </div>
-            </div>
-            <div class="panel-item">
-              <div class="panel-icon">🗺️</div>
-              <div>
-                <strong>Flächen realistisch bewertet</strong>
-                <span>Mehrere Teilflächen bedeuten mehr Aufwand bei Planung, Wechseln und Einsatzdurchführung.</span>
-              </div>
-            </div>
-            <div class="panel-item">
-              <div class="panel-icon">🛠️</div>
-              <div>
-                <strong>Verein und Technik gestützt</strong>
-                <span>Ein Teil des Betrags bleibt für Ausrüstung, Organisation und nachhaltige Vereinsarbeit.</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
 
-    <!-- Rechner -->
-    <section class="section calculator-shell" id="rechner">
-      <div class="container calculator-stage">
-
-        <aside class="calculator-side">
-          <div class="side-card side-highlight">
-            <h3>Hinweis zur Nutzung</h3>
-            <p>Der Rechner liefert Orientierungswerte. Er soll eine faire Grundlage schaffen, keine starre Gebührenordnung.</p>
-          </div>
-          <div class="side-card">
-            <h3>Berücksichtigt werden</h3>
-            <ul>
-              <li>Gesamtfläche in Hektar</li>
-              <li>Anzahl der einzelnen Flächen</li>
-              <li>Entfernung des Teams (einfache Strecke)</li>
-              <li>Anteil für Organisation und Vereinsstruktur</li>
-            </ul>
-          </div>
-          <div class="side-card">
-            <h3>Empfehlung</h3>
-            <p>Die unterstützende Stufe ist hervorgehoben, weil sie den nachhaltigen Betrieb von Technik, Ausbildung und Vereinsarbeit am besten mitträgt.</p>
-          </div>
-        </aside>
-
-        <div class="calculator-card">
-          <div class="calculator-wrap">
-
-            <div class="calc-hero">
-              <div class="calc-pattern"></div>
-              <div class="calc-hero-inner">
-                <div class="calc-tag">Kitzrettung per Drohne</div>
-                <div class="calc-title">Spendenrechner</div>
-                <div class="calc-sub">Berechne in Sekunden, was ein sinnvoller Beitrag für deinen Einsatz ist.</div>
-                <div class="calc-divider"></div>
-              </div>
-            </div>
-
-            <div class="form-wrap">
-              <div class="steps">
-
-                <div class="step-row">
-                  <div class="step-num">1</div>
-                  <div class="step-body">
-                    <div class="step-label">Wo findet der Einsatz statt?</div>
-                    <select id="bundesland">
-                      <option value="" disabled selected>Bundesland wählen …</option>
-                      <option value="BW">Baden-Württemberg</option>
-                      <option value="BY">Bayern</option>
-                      <option value="BE">Berlin</option>
-                      <option value="BB">Brandenburg</option>
-                      <option value="HB">Bremen</option>
-                      <option value="HH">Hamburg</option>
-                      <option value="HE">Hessen</option>
-                      <option value="MV">Mecklenburg-Vorpommern</option>
-                      <option value="NI">Niedersachsen</option>
-                      <option value="NW">Nordrhein-Westfalen</option>
-                      <option value="RP">Rheinland-Pfalz</option>
-                      <option value="SL">Saarland</option>
-                      <option value="SN">Sachsen</option>
-                      <option value="ST">Sachsen-Anhalt</option>
-                      <option value="SH">Schleswig-Holstein</option>
-                      <option value="TH">Thüringen</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="step-row">
-                  <div class="step-num">2</div>
-                  <div class="step-body">
-                    <div class="step-label">Wie groß ist die Fläche?</div>
-                    <div class="field-row">
-                      <input type="number" id="flaeche" min="0.1" step="0.1" placeholder="Gesamtfläche in ha" />
-                      <input type="number" id="teilflaechen" min="1" step="1" placeholder="Anzahl Einzelflächen" />
-                    </div>
-                  </div>
-                </div>
-
-                <div class="step-row">
-                  <div class="step-num">3</div>
-                  <div class="step-body">
-                    <div class="step-label">Wie weit ist das Drohnenteam entfernt?</div>
-                    <input type="number" id="entfernung" min="0" step="1" placeholder="Entfernung in km (einfache Strecke)" />
-                  </div>
-                </div>
-
-              </div>
-
-              <p class="error" id="error" role="alert">Bitte alle Felder ausfüllen und gültige Werte eingeben.</p>
-
-              <button class="calc-btn" id="calc-btn" type="button" aria-label="Spendenbetrag berechnen">
-                <span class="calc-btn-text">Spende berechnen</span>
-                <div class="calc-btn-arrow" aria-hidden="true">→</div>
-              </button>
-
-              <div class="results-label" id="results-label" aria-live="polite">Deine Spendenoptionen</div>
-
-              <div class="results" id="results">
-
-                <div class="stufe-card stufe-basis">
-                  <div class="s-hd">
-                    <div class="s-hd-left">
-                      <div class="s-badge">Kostendeckend</div>
-                      <div class="s-ha" id="basis-ha"></div>
-                    </div>
-                    <div class="s-total" id="basis-total"></div>
-                  </div>
-                  <div class="s-body">
-                    <div class="pay-row">
-                      <div class="pay-icon bar">💵</div>
-                      <div>
-                        <div class="pay-name">Bar an den Piloten</div>
-                        <div class="pay-desc" id="basis-bar-desc"></div>
-                        <div class="pay-amount bar-color" id="basis-bar"></div>
-                      </div>
-                    </div>
-                    <div class="pay-row">
-                      <div class="pay-icon bank">🏦</div>
-                      <div>
-                        <div class="pay-name">Überweisung an den Verein</div>
-                        <div class="pay-desc" id="basis-bank-desc"></div>
-                        <div class="pay-amount bank-color" id="basis-bank"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bdown">
-                    <div class="bd" id="basis-bd-fl"></div>
-                    <div class="bd" id="basis-bd-tf"></div>
-                    <div class="bd" id="basis-bd-km"></div>
-                  </div>
-                </div>
-
-                <div class="stufe-card stufe-empf">
-                  <div class="s-hd">
-                    <div class="s-hd-left">
-                      <div class="s-badge">Empfohlen</div>
-                      <div class="s-ha" id="empf-ha"></div>
-                    </div>
-                    <div class="s-total" id="empf-total"></div>
-                  </div>
-                  <div class="s-body">
-                    <div class="pay-row">
-                      <div class="pay-icon bar">💵</div>
-                      <div>
-                        <div class="pay-name">Bar an den Piloten</div>
-                        <div class="pay-desc" id="empf-bar-desc"></div>
-                        <div class="pay-amount bar-color" id="empf-bar"></div>
-                      </div>
-                    </div>
-                    <div class="pay-row">
-                      <div class="pay-icon bank">🏦</div>
-                      <div>
-                        <div class="pay-name">Überweisung an den Verein</div>
-                        <div class="pay-desc" id="empf-bank-desc"></div>
-                        <div class="pay-amount bank-color" id="empf-bank"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bdown">
-                    <div class="bd" id="empf-bd-fl"></div>
-                    <div class="bd" id="empf-bd-tf"></div>
-                    <div class="bd" id="empf-bd-km"></div>
-                  </div>
-                </div>
-
-                <div class="stufe-card stufe-unts">
-                  <div class="s-hd">
-                    <div class="s-hd-left">
-                      <div class="s-badge">Unterstützend</div>
-                      <span class="rec-pill">empfohlen</span>
-                      <div class="s-ha" id="unts-ha"></div>
-                    </div>
-                    <div class="s-total" id="unts-total"></div>
-                  </div>
-                  <div class="s-body">
-                    <div class="pay-row">
-                      <div class="pay-icon bar">💵</div>
-                      <div>
-                        <div class="pay-name">Bar an den Piloten</div>
-                        <div class="pay-desc" id="unts-bar-desc"></div>
-                        <div class="pay-amount bar-color" id="unts-bar"></div>
-                      </div>
-                    </div>
-                    <div class="pay-row">
-                      <div class="pay-icon bank">🏦</div>
-                      <div>
-                        <div class="pay-name">Überweisung an den Verein</div>
-                        <div class="pay-desc" id="unts-bank-desc"></div>
-                        <div class="pay-amount bank-color" id="unts-bank"></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="bdown">
-                    <div class="bd" id="unts-bd-fl"></div>
-                    <div class="bd" id="unts-bd-tf"></div>
-                    <div class="bd" id="unts-bd-km"></div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- So funktioniert es -->
-    <section class="section" id="ablauf">
+    <!-- Über die Seite -->
+    <section class="section">
       <div class="container">
         <div class="section-head">
-          <div class="section-kicker">So funktioniert es</div>
-          <h2 class="section-title">Einfach, nachvollziehbar, direkt einsetzbar</h2>
+          <div class="section-kicker">Über diese Seite</div>
+          <h2 class="section-title">Klare Orientierung für den Kitzrettungseinsatz</h2>
           <p class="section-text">
-            Nach Eingabe von Bundesland, Flächengröße, Anzahl der Einzelflächen und Entfernung des Drohnenteams wird automatisch ein realistischer Betrag ermittelt. Die Berechnung berücksichtigt sowohl den direkten Aufwand des Einsatzes als auch organisatorische und technische Kosten. Das Ergebnis erscheint in drei Stufen, von einer rein kostendeckenden Variante bis hin zu einer Option, die zusätzlich die nachhaltige Arbeit des Einsatzteams stärkt.
+            Kitzrettung ist ehrenamtlich, aber nicht kostenlos: Anfahrt, Technik und Vorbereitung kosten Zeit und Geld, und ein guter Flug will geplant sein. Diese Seite bündelt einfache Rechner, die beides nachvollziehbar machen – einen für den fairen Beitrag und mehrere für die Flugplanung. Alle Werte sind Orientierungswerte und ersetzen keine Absprache vor Ort.
+          </p>
+          <div class="ph-actions" style="margin-top:22px;">
+            <a class="btn btn-amber" href="rechner.html">Alle Rechner ansehen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wissenswertes -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">Wissenswertes</div>
+          <h2 class="section-title">Kurz erklärt: Kitzrettung</h2>
+          <p class="section-text">
+            Warum die Rettung nötig ist und worauf es beim Einsatz ankommt.
           </p>
         </div>
-        <div class="info-grid">
-          <article class="info-card">
-            <div class="info-icon">1</div>
-            <h3>Ort und Fläche eintragen</h3>
-            <p>Bundesland, Gesamtfläche in Hektar und Anzahl der Einzelflächen eingeben. Mehrere Flächen bedeuten mehr Planungsaufwand und werden entsprechend berücksichtigt.</p>
-          </article>
-          <article class="info-card">
-            <div class="info-icon">2</div>
-            <h3>Anfahrt ergänzen</h3>
-            <p>Die einfache Strecke in Kilometern eingeben. Hin- und Rückfahrt sowie zwei Fahrzeuge werden automatisch eingerechnet.</p>
-          </article>
-          <article class="info-card">
-            <div class="info-icon">3</div>
-            <h3>Stufe auswählen</h3>
-            <p>Drei Optionen von kostendeckend bis unterstützend. Die Aufteilung in Barzahlung und Überweisung wird für jede Stufe direkt mitangezeigt.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+        <div class="card-grid">
 
-    <!-- FAQ -->
-    <section class="section" id="fragen">
-      <div class="container split-grid">
-        <div>
-          <div class="section-head">
-            <div class="section-kicker">Häufige Fragen</div>
-            <h2 class="section-title">Kurze Antworten auf typische Rückfragen</h2>
-            <p class="section-text">
-              Alle Angaben sind Richtwerte. Der Rechner ist kein Ersatz für eine individuelle Absprache, sondern eine nachvollziehbare Gesprächsgrundlage.
-            </p>
-          </div>
-        </div>
-        <div class="faq-list">
-          <details open>
-            <summary>Ist das eine verbindliche Preisvorgabe?</summary>
-            <p>Nein. Der Rechner liefert eine Orientierung für einen fairen Beitrag. Er ersetzt keine individuelle Absprache vor Ort, sondern schafft eine transparente Grundlage für das Gespräch zwischen Landwirt, Jäger und Einsatzteam.</p>
-          </details>
-          <details>
-            <summary>Was bedeuten die drei Stufen?</summary>
-            <p>"Kostendeckend" deckt den reinen Aufwand ab. "Empfohlen" rundet auf einen glatten Betrag und schafft einen kleinen Puffer. "Unterstützend" ermöglicht darüber hinaus den Erhalt der Ausrüstung und die Ausbildung des Teams.</p>
-          </details>
-          <details>
-            <summary>Warum wird zwischen Barzahlung und Überweisung getrennt?</summary>
-            <p>Der Barbetrag deckt direkte Kosten wie Sprit und Vorbereitung ab, die unmittelbar beim Einsatzteam anfallen. Der Überweisungsanteil kommt dem Verein, der Technik und der Organisation zugute.</p>
-          </details>
-          <details>
-            <summary>Wie werden mehrere Teilflächen berechnet?</summary>
-            <p>Jede zusätzliche Einzelfläche erhöht den Planungsaufwand und erfordert Umrüst- und Transportzeiten zwischen den Flächen. Deshalb wird pro Einzelfläche eine Pauschale auf den Vereinsanteil aufgerechnet.</p>
-          </details>
-          <details>
-            <summary>Warum fließen zwei Fahrzeuge in die Anfahrt ein?</summary>
-            <p>Ein Drohneneinsatz zur Kitzrettung erfordert mindestens zwei Personen und in der Regel zwei Fahrzeuge, da Geräte, Batterien und Bergungsausrüstung getrennt transportiert werden.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- Kontakt -->
-    <section class="section" id="kontakt">
-      <div class="container">
-        <div class="contact-wrap">
-          <div class="contact-grid">
-            <div>
-              <div class="section-kicker">Kontakt</div>
-              <h2 class="section-title">Rückfragen oder Einsatzanfragen</h2>
-              <p class="section-text">
-                Bei Fragen zum Rechner, zu einem konkreten Einsatz oder zur Kitzrettung in deiner Region meld dich gerne direkt.
-              </p>
-              <div class="contact-points">
-                <div class="contact-point">
-                  <strong>E-Mail</strong>
-                  <span><a href="mailto:wildes_holstein@web.de">wildes_holstein@web.de</a></span>
-                </div>
-              </div>
+          <article class="info-card">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M12 20c0-5 0-8 2-12"/><path d="M12 20c0-5 0-8-2-12"/><path d="M12 20c0-4 2-7 6-9"/><path d="M12 20c0-4-2-7-6-9"/></svg>
             </div>
-            <form class="form-grid" onsubmit="handleForm(event)">
-              <div class="form-row-2">
-                <input type="text" name="name" placeholder="Name" required />
-                <input type="email" name="email" placeholder="E-Mail" required />
-              </div>
-              <input type="text" name="betreff" placeholder="Betreff" required />
-              <textarea name="nachricht" placeholder="Nachricht"></textarea>
-              <button class="btn btn-primary" type="submit">Nachricht senden</button>
-              <p class="form-note">
-                Das Formular öffnet deinen E-Mail-Client mit den eingetragenen Angaben. Du erreichst mich auch direkt unter <a href="mailto:wildes_holstein@web.de" style="color: var(--green-mid);">wildes_holstein@web.de</a>.
-              </p>
-            </form>
-          </div>
+            <h3>Warum sind Kitze gefährdet?</h3>
+            <p>In der Setzzeit im Mai und Juni legen Ricken ihre Kitze ins hohe Gras. Bei Gefahr fliehen die Kleinen nicht, sondern drücken sich reglos an den Boden – genau dann beginnt die Mahd.</p>
+          </article>
+
+          <article class="info-card">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><path d="M6.6 6.6 8.6 8.6M17.4 6.6 15.4 8.6M6.6 17.4 8.6 15.4M17.4 17.4 15.4 15.4"/></svg>
+            </div>
+            <h3>Warum mit Wärmebilddrohne?</h3>
+            <p>Eine Wärmebildkamera erkennt die Körperwärme der Kitze aus der Luft, auch im dichten Gras. So lässt sich eine Fläche schnell und systematisch absuchen.</p>
+          </article>
+
+          <article class="info-card">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19h18"/><path d="M12 4v3"/><path d="M5.5 9 7 10.5M18.5 9 17 10.5"/><path d="M7 19a5 5 0 0 1 10 0"/></svg>
+            </div>
+            <h3>Wann ist der beste Zeitpunkt?</h3>
+            <p>Früh am Morgen – idealerweise vor Sonnenaufgang bis etwa zwei Stunden danach. Dann ist der Temperaturunterschied zwischen Kitz und Umgebung am größten.</p>
+          </article>
+
+          <article class="info-card">
+            <div class="info-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 8.5h15l-1.2 10.5H5.7L4.5 8.5Z"/><path d="M9 8.5V6.5a3 3 0 0 1 6 0v2"/></svg>
+            </div>
+            <h3>Was passiert beim Fund?</h3>
+            <p>Gefundene Kitze werden gesichert – etwa unter einer luftigen Kiste – bis die Fläche gemäht ist. Möglichst ohne direkten Hautkontakt, um menschlichen Geruch zu vermeiden.</p>
+          </article>
+
         </div>
       </div>
     </section>
@@ -966,139 +113,21 @@
   <footer class="site-footer">
     <div class="container footer-shell">
       <div class="footer-copy">
-        Kitzrettung Schleswig-Holstein &nbsp;&middot;&nbsp; <a href="mailto:wildes_holstein@web.de">wildes_holstein@web.de</a>
+        <a href="mailto:webmaster@kitzrettungsrechner.de">webmaster@kitzrettungsrechner.de</a>
       </div>
       <div class="footer-links">
-        <a href="#top">Nach oben</a>
-        <a href="#rechner">Rechner</a>
-        <a href="#kontakt">Kontakt</a>
+        <a href="index.html">Start</a>
+        <a href="rechner.html">Rechner</a>
+        <a href="kontakt.html">Kontakt</a>
         <a href="impressum.html">Impressum</a>
       </div>
     </div>
   </footer>
 
   <script>
-    const KONFIG = {
-      stufen: { basis: 3.00, empf: 4.00, unts: 5.00 },
-      teilflaechePauschale: 10.00,
-      kmSatz: 0.40,
-      vorbereitungsPauschale: 5.00,
-      bundeslaender: {
-        BW:{}, BY:{}, BE:{}, BB:{}, HB:{}, HH:{},
-        HE:{}, MV:{}, NI:{}, NW:{}, RP:{}, SL:{},
-        SN:{}, ST:{}, SH:{}, TH:{}
-      }
-    };
-
-    function getK(bl) {
-      const b = KONFIG.bundeslaender[bl] || {};
-      return {
-        stufen:                { ...KONFIG.stufen, ...(b.stufen || {}) },
-        teilflaechePauschale:  b.teilflaechePauschale  ?? KONFIG.teilflaechePauschale,
-        kmSatz:                b.kmSatz                ?? KONFIG.kmSatz,
-        vorbereitungsPauschale: b.vorbereitungsPauschale ?? KONFIG.vorbereitungsPauschale
-      };
-    }
-
-    function fmt(n) {
-      return n.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 });
-    }
-
-    function fill(id, v) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = v;
-    }
-
-    function rundeAuf5Euro(n) { return Math.ceil(n / 5) * 5; }
-
-    function berechnen() {
-      const bl = document.getElementById('bundesland').value;
-      const fl = parseFloat(document.getElementById('flaeche').value);
-      const tf = parseInt(document.getElementById('teilflaechen').value, 10);
-      const km = parseFloat(document.getElementById('entfernung').value);
-
-      const err = document.getElementById('error');
-      const res = document.getElementById('results');
-      const lbl = document.getElementById('results-label');
-
-      if (!bl || isNaN(fl) || fl <= 0 || isNaN(tf) || tf < 1 || isNaN(km) || km < 0) {
-        err.classList.add('on');
-        res.classList.remove('on');
-        lbl.classList.remove('on');
-        return;
-      }
-
-      err.classList.remove('on');
-
-      const k    = getK(bl);
-      const tfB  = tf * k.teilflaechePauschale;
-      const kmB  = km * 2 * 2 * k.kmSatz;
-      const vorB = k.vorbereitungsPauschale;
-      const barB = kmB + vorB;
-
-      const tfLabel = tf === 1 ? '1 Einzelfläche' : tf + ' Einzelflächen';
-      const kmLabel = km === 1 ? '1 km einfache Strecke' : km + ' km einfache Strecke';
-
-      ['basis', 'empf', 'unts'].forEach(s => {
-        const haV    = k.stufen[s];
-        const flB    = fl * haV;
-        const gesRaw = flB + tfB + barB;
-        const ges    = (s === 'empf' || s === 'unts') ? rundeAuf5Euro(gesRaw) : gesRaw;
-        const bankB  = ges - barB;
-
-        fill(s + '-ha',        haV.toFixed(2).replace('.', ',') + ' €/ha');
-        fill(s + '-total',     fmt(ges));
-        fill(s + '-bar',       fmt(barB));
-        fill(s + '-bar-desc',  fmt(kmB) + ' Spritgeld (2 Fahrzeuge) + ' + fmt(vorB) + ' Vorbereitung');
-        fill(s + '-bank',      fmt(bankB));
-        fill(s + '-bank-desc', 'Für Verein, Technik und Organisation');
-        fill(s + '-bd-fl',     fmt(flB) + ' für ' + fl + ' ha Fläche');
-        fill(s + '-bd-tf',     fmt(tfB) + ' für ' + tfLabel);
-        fill(s + '-bd-km',     fmt(kmB) + ' für ' + kmLabel);
-      });
-
-      res.classList.add('on');
-      lbl.classList.add('on');
-      res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    function handleForm(e) {
-      e.preventDefault();
-      const f = e.target;
-      const body = encodeURIComponent(
-        'Name: ' + f.name.value.trim() +
-        '\nE-Mail: ' + f.email.value.trim() +
-        '\n\n' + f.nachricht.value.trim()
-      );
-      window.location.href =
-        'mailto:wildes_holstein@web.de' +
-        '?subject=' + encodeURIComponent(f.betreff.value.trim()) +
-        '&body=' + body;
-    }
-
-    document.getElementById('calc-btn').addEventListener('click', berechnen);
-
-    document.getElementById('bundesland').addEventListener('change', () => {
-      document.getElementById('flaeche').focus();
-    });
-
-    document.getElementById('flaeche').addEventListener('change', function () {
-      if (this.value) document.getElementById('teilflaechen').focus();
-    });
-
-    document.getElementById('teilflaechen').addEventListener('change', function () {
-      if (this.value) document.getElementById('entfernung').focus();
-    });
-
-    document.getElementById('entfernung').addEventListener('change', function () {
-      if (this.value !== '') berechnen();
-    });
-
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && document.activeElement?.tagName !== 'TEXTAREA') {
-        berechnen();
-      }
-    });
+    const onScroll = () => document.body.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   </script>
 
 </body>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anzeigedauer am Bildschirm – Flugplanung Kitzrettung</title>
+  <meta name="description" content="Rechner für die Anzeigedauer eines Objekts auf dem Bildschirm – abhängig von Bodenauflösung, Fluggeschwindigkeit und Sensorauflösung." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a class="brand brand--logo" href="index.html">
+        <svg class="leaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 3C11.6 3 5 8.4 5 17c0 1.3.15 2.5.45 3.6.95-4.3 3.6-8.9 9.55-11.6-5.2 3.9-7.9 8.6-8.5 13H9c.5-1.2 1.2-2.3 2-3.3C19 17.4 22 10.6 21 3Z"/>
+        </svg>
+        <span class="logo-word">Kitzrettung<span class="dot-accent">.</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html" class="active">Rechner</a>
+        <a href="kontakt.html" class="nav-cta nav-cta--amber">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="subhero">
+      <div class="container">
+        <a class="subhero-back" href="rechner.html">← Alle Rechner</a>
+        <h1 class="subhero-title">Anzeigedauer <span class="it">am Bildschirm</span></h1>
+        <p class="subhero-lead">
+          Wie lange ein warmes Objekt wie ein Rehkitz oder Bodenbrüter auf dem Bildschirm zu sehen ist, hängt von Fluggeschwindigkeit, Bodenauflösung und Sensorauflösung ab. Sinnvoll ist, dass Objekte in der oberen Hälfte des Monitors erkannt werden – ideal sind je nach Person etwa 6 bis 10&nbsp;Sekunden.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="fcalc-stage">
+          <aside class="calculator-side">
+            <div class="side-card side-highlight">
+              <h3>Warum wichtig?</h3>
+              <p>Genug Anzeigezeit gibt dir die Möglichkeit, die Drohne zu stoppen, während das Objekt noch im Bild ist. Zu schnelles Fliegen lässt Objekte zu kurz erscheinen.</p>
+            </div>
+            <div class="side-card">
+              <h3>Hinweis</h3>
+              <p>Alle Werte sind Näherungswerte und können je nach Bedingungen am Einsatztag abweichen.</p>
+            </div>
+          </aside>
+
+          <div class="fcalc-card">
+            <div class="calc-hero">
+              <div class="calc-pattern"></div>
+              <div class="calc-hero-inner">
+                <div class="calc-tag">Wärmebild · Flugplanung</div>
+                <div class="calc-title">Anzeigedauer</div>
+                <div class="calc-sub">Sichtbarkeitsdauer eines Objekts auf dem Monitor.</div>
+                <div class="calc-divider"></div>
+              </div>
+            </div>
+
+            <div class="fcalc-body">
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Bodenauflösung</span>
+                  <span class="fl-value"><span id="gsd-val">7,0</span> cm</span>
+                </div>
+                <input type="range" id="gsd" min="2" max="20" step="0.1" value="7" />
+                <div class="fl-minmax"><span>2 cm</span><span>20 cm</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Fluggeschwindigkeit</span>
+                  <span class="fl-value"><span id="speed-val">4,5</span> m/s</span>
+                </div>
+                <input type="range" id="speed" min="1" max="20" step="0.1" value="4.5" />
+                <div class="fl-minmax"><span>1 m/s</span><span>20 m/s</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Wärmebildkameraauflösung</span>
+                </div>
+                <div class="fradio-group" id="sensor-group"></div>
+              </div>
+
+              <div class="fresults">
+                <div class="fresult">
+                  <div class="fr-label">Anzeigezeit auf dem Bildschirm</div>
+                  <div class="fr-value"><span id="res-zeit">8,0</span><span class="fr-unit"> s</span></div>
+                </div>
+              </div>
+
+              <p class="fnote">
+                Anzeigezeit = (Bodenauflösung × vertikale Pixelzahl ÷ 100) ÷ Fluggeschwindigkeit. Die vertikale Pixelzahl ergibt sich aus der Sensorauflösung (z.&nbsp;B. 640×512 → 512&nbsp;px).
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <div class="footer-copy">
+        <a href="mailto:webmaster@kitzrettungsrechner.de">webmaster@kitzrettungsrechner.de</a>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html">Rechner</a>
+        <a href="kontakt.html">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const SENSOREN = [
+      { name: '320x256',   vert: 256  },
+      { name: '640x512',   vert: 512  },
+      { name: '1280x1024', vert: 1024 }
+    ];
+    let aktiv = 1; // 640x512
+
+    function deNum(n, dec) {
+      return n.toLocaleString('de-DE', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    }
+
+    function renderSensoren() {
+      const g = document.getElementById('sensor-group');
+      g.innerHTML = '';
+      SENSOREN.forEach((s, i) => {
+        const lbl = document.createElement('label');
+        lbl.className = 'fradio' + (i === aktiv ? ' checked' : '');
+        lbl.innerHTML = '<input type="radio" name="sensor" value="' + i + '"' + (i === aktiv ? ' checked' : '') + ' />' + s.name;
+        lbl.querySelector('input').addEventListener('change', () => { aktiv = i; renderSensoren(); berechnen(); });
+        g.appendChild(lbl);
+      });
+    }
+
+    function berechnen() {
+      const gsd = parseFloat(document.getElementById('gsd').value);
+      const speed = parseFloat(document.getElementById('speed').value);
+      const vert = SENSOREN[aktiv].vert;
+
+      const zeit = Math.round((((gsd * vert) / 100) / speed) * 10) / 10;
+
+      document.getElementById('gsd-val').textContent = deNum(gsd, 1);
+      document.getElementById('speed-val').textContent = deNum(speed, 1);
+      document.getElementById('res-zeit').textContent = deNum(zeit, 1);
+    }
+
+    ['gsd', 'speed'].forEach(id =>
+      document.getElementById(id).addEventListener('input', berechnen)
+    );
+    renderSensoren();
+    berechnen();
+  </script>
+
+</body>
+</html>

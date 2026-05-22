@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bahnabstand & Überlappung – Kitzrettung</title>
+  <meta name="description" content="Rechner für den idealen Bahnabstand beim Suchflug – aus Flughöhe, Drohnenmodell und gewünschter Überlappung des Bildausschnitts." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a class="brand brand--logo" href="index.html">
+        <svg class="leaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 3C11.6 3 5 8.4 5 17c0 1.3.15 2.5.45 3.6.95-4.3 3.6-8.9 9.55-11.6-5.2 3.9-7.9 8.6-8.5 13H9c.5-1.2 1.2-2.3 2-3.3C19 17.4 22 10.6 21 3Z"/>
+        </svg>
+        <span class="logo-word">Kitzrettung<span class="dot-accent">.</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html" class="active">Rechner</a>
+        <a href="kontakt.html" class="nav-cta nav-cta--amber">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="subhero">
+      <div class="container">
+        <a class="subhero-back" href="rechner.html">← Alle Rechner</a>
+        <h1 class="subhero-title">Bahnabstand & <span class="it">Überlappung</span></h1>
+        <p class="subhero-lead">
+          Welcher Abstand zwischen den Suchbahnen ist sinnvoll, damit keine Lücken entstehen? Der Rechner leitet ihn aus der Bildbreite (Flughöhe × Modell) und der gewünschten Überlappung ab.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="fcalc-stage">
+          <aside class="calculator-side">
+            <div class="side-card side-highlight">
+              <h3>Lieber etwas enger</h3>
+              <p>In der Praxis wird oft deutlich enger geflogen als die reine Bildbreite erlaubt (häufig um 18&nbsp;m), damit Kitze sicher erkannt werden und nichts zwischen den Bahnen verloren geht.</p>
+            </div>
+            <div class="side-card">
+              <h3>Hängt zusammen mit</h3>
+              <p>Die Bildbreite stammt aus demselben Zusammenhang wie beim Rechner „Bodenauflösung & Bildbreite". Höher fliegen verbreitert den Streifen, kostet aber Auflösung.</p>
+            </div>
+          </aside>
+
+          <div class="fcalc-card">
+            <div class="calc-hero">
+              <div class="calc-pattern"></div>
+              <div class="calc-hero-inner">
+                <div class="calc-tag">Suchflug · Planung</div>
+                <div class="calc-title">Bahnabstand</div>
+                <div class="calc-sub">Streifenbreite und idealen Bahnabstand bestimmen.</div>
+                <div class="calc-divider"></div>
+              </div>
+            </div>
+
+            <div class="fcalc-body">
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Flughöhe</span>
+                  <span class="fl-value"><span id="hoehe-val">50</span> m</span>
+                </div>
+                <input type="range" id="hoehe" min="5" max="150" step="1" value="50" />
+                <div class="fl-minmax"><span>5 m</span><span>150 m</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Wärmebilddrohne / -kamera</span>
+                </div>
+                <div class="fradio-group" id="drohne-group"></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Überlappung</span>
+                  <span class="fl-value"><span id="ol-val">30</span> %</span>
+                </div>
+                <input type="range" id="ol" min="0" max="60" step="1" value="30" />
+                <div class="fl-minmax"><span>0 %</span><span>60 %</span></div>
+              </div>
+
+              <div class="fresults">
+                <div class="fresult">
+                  <div class="fr-label">Empfohlener Bahnabstand</div>
+                  <div class="fr-value"><span id="res-bahn">29,6</span><span class="fr-unit"> m</span></div>
+                </div>
+                <div class="fresult secondary">
+                  <div class="fr-label">Breite Bildausschnitt</div>
+                  <div class="fr-value"><span id="res-breite">42</span><span class="fr-unit"> m</span></div>
+                </div>
+              </div>
+
+              <p class="fnote">
+                Bahnabstand = Bildbreite × (1 − Überlappung). Die Bildbreite ergibt sich aus Bodenauflösung × Pixelzahl der Sensorbreite (640&nbsp;px, beim hochauflösenden Sensor 1280&nbsp;px).
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <div class="footer-copy">
+        <a href="mailto:webmaster@kitzrettungsrechner.de">webmaster@kitzrettungsrechner.de</a>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html">Rechner</a>
+        <a href="kontakt.html">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const DROHNEN = [
+      { name: 'DJI M2EA',     factor: 0.1319 },
+      { name: 'DJI M3T',      factor: 0.1319 },
+      { name: 'DJI M3TA',     factor: 0.088  },
+      { name: 'DJI M4T/M4TD', factor: 0.1    },
+      { name: 'DJI M30T',     factor: 0.1319 },
+      { name: 'DJI H20T',     factor: 0.0889 },
+      { name: 'DJI H30T',     factor: 0.05   }
+    ];
+    let aktiv = 1; // DJI M3T
+
+    function deNum(n, dec) {
+      return n.toLocaleString('de-DE', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    }
+
+    function renderDrohnen() {
+      const g = document.getElementById('drohne-group');
+      g.innerHTML = '';
+      DROHNEN.forEach((d, i) => {
+        const lbl = document.createElement('label');
+        lbl.className = 'fradio' + (i === aktiv ? ' checked' : '');
+        lbl.innerHTML = '<input type="radio" name="drohne" value="' + i + '"' + (i === aktiv ? ' checked' : '') + ' />' + d.name;
+        lbl.querySelector('input').addEventListener('change', () => { aktiv = i; renderDrohnen(); berechnen(); });
+        g.appendChild(lbl);
+      });
+    }
+
+    function berechnen() {
+      const hoehe = parseFloat(document.getElementById('hoehe').value);
+      const ol = parseFloat(document.getElementById('ol').value);
+      const factor = DROHNEN[aktiv].factor;
+      const px = factor === 0.05 ? 1280 : 640;
+
+      const breite = (hoehe * factor) * (px / 100);
+      const bahn = breite * (1 - ol / 100);
+
+      document.getElementById('hoehe-val').textContent = deNum(hoehe, 0);
+      document.getElementById('ol-val').textContent = deNum(ol, 0);
+      document.getElementById('res-breite').textContent = deNum(Math.round(breite), 0);
+      document.getElementById('res-bahn').textContent = deNum(bahn, 1);
+    }
+
+    document.getElementById('hoehe').addEventListener('input', berechnen);
+    document.getElementById('ol').addEventListener('input', berechnen);
+    renderDrohnen();
+    berechnen();
+  </script>
+
+</body>
+</html>

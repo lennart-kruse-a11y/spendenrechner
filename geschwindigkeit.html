@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maximale Geschwindigkeit – Flugplanung Kitzrettung</title>
+  <meta name="description" content="Rechner für die maximal zulässige Fluggeschwindigkeit zur Vermeidung von Bewegungsunschärfe im Wärmebild – abhängig von Bodenauflösung und Integrationszeit." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a class="brand brand--logo" href="index.html">
+        <svg class="leaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 3C11.6 3 5 8.4 5 17c0 1.3.15 2.5.45 3.6.95-4.3 3.6-8.9 9.55-11.6-5.2 3.9-7.9 8.6-8.5 13H9c.5-1.2 1.2-2.3 2-3.3C19 17.4 22 10.6 21 3Z"/>
+        </svg>
+        <span class="logo-word">Kitzrettung<span class="dot-accent">.</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html" class="active">Rechner</a>
+        <a href="kontakt.html" class="nav-cta nav-cta--amber">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="subhero">
+      <div class="container">
+        <a class="subhero-back" href="rechner.html">← Alle Rechner</a>
+        <h1 class="subhero-title">Maximale <span class="it">Geschwindigkeit</span></h1>
+        <p class="subhero-lead">
+          Wärmebildkameras haben eine feste Integrationszeit (meist 15&nbsp;ms). Fliegt die Drohne zu schnell, wandern Objekte während der Aufnahme über mehrere Pixel und das Bild wird unscharf. Eine Bewegung von etwa 1,7&nbsp;Pixeln ist meist noch tolerierbar.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="fcalc-stage">
+          <aside class="calculator-side">
+            <div class="side-card side-highlight">
+              <h3>Zusammenhang</h3>
+              <p>Je gröber die Bodenauflösung (mehr Fläche pro Pixel), desto schneller darf geflogen werden. Eine kürzere Integrationszeit erlaubt ebenfalls mehr Tempo.</p>
+            </div>
+            <div class="side-card">
+              <h3>Hinweis</h3>
+              <p>Alle Werte sind Näherungswerte und können je nach Bedingungen am Einsatztag abweichen.</p>
+            </div>
+          </aside>
+
+          <div class="fcalc-card">
+            <div class="calc-hero">
+              <div class="calc-pattern"></div>
+              <div class="calc-hero-inner">
+                <div class="calc-tag">Wärmebild · Flugplanung</div>
+                <div class="calc-title">Fluggeschwindigkeit</div>
+                <div class="calc-sub">Maximales Tempo ohne störende Bewegungsunschärfe.</div>
+                <div class="calc-divider"></div>
+              </div>
+            </div>
+
+            <div class="fcalc-body">
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Bodenauflösung</span>
+                  <span class="fl-value"><span id="gsd-val">7,0</span> cm</span>
+                </div>
+                <input type="range" id="gsd" min="2" max="20" step="0.1" value="7" />
+                <div class="fl-minmax"><span>2 cm</span><span>20 cm</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Maximal zulässige Bewegung</span>
+                  <span class="fl-value"><span id="bew-val">1,7</span> px</span>
+                </div>
+                <input type="range" id="bew" min="1" max="2" step="0.1" value="1.7" />
+                <div class="fl-minmax"><span>1 px</span><span>2 px</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Integrationszeit</span>
+                  <span class="fl-value"><span id="int-val">15</span> ms</span>
+                </div>
+                <input type="range" id="int" min="5" max="20" step="1" value="15" />
+                <div class="fl-minmax"><span>5 ms</span><span>20 ms</span></div>
+              </div>
+
+              <div class="fresults">
+                <div class="fresult">
+                  <div class="fr-label">Maximale Fluggeschwindigkeit</div>
+                  <div class="fr-value"><span id="res-speed">7,9</span><span class="fr-unit"> m/s</span></div>
+                </div>
+              </div>
+
+              <p class="fnote">
+                Geschwindigkeit = (Bodenauflösung × zulässige Bewegung) ÷ Integrationszeit. Beispiel: 7&nbsp;cm × 1,7&nbsp;px bei 15&nbsp;ms ≈ 7,9&nbsp;m/s (≈ 28&nbsp;km/h).
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <div class="footer-copy">
+        <a href="mailto:webmaster@kitzrettungsrechner.de">webmaster@kitzrettungsrechner.de</a>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html">Rechner</a>
+        <a href="kontakt.html">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function deNum(n, dec) {
+      return n.toLocaleString('de-DE', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    }
+
+    function berechnen() {
+      const gsd = parseFloat(document.getElementById('gsd').value);
+      const bew = parseFloat(document.getElementById('bew').value);
+      const intMs = parseFloat(document.getElementById('int').value);
+
+      const speed = Math.round(((gsd * bew) / (intMs / 1000)) / 10) / 10;
+
+      document.getElementById('gsd-val').textContent = deNum(gsd, 1);
+      document.getElementById('bew-val').textContent = deNum(bew, 1);
+      document.getElementById('int-val').textContent = deNum(intMs, 0);
+      document.getElementById('res-speed').textContent = deNum(speed, 1);
+    }
+
+    ['gsd', 'bew', 'int'].forEach(id =>
+      document.getElementById(id).addEventListener('input', berechnen)
+    );
+    berechnen();
+  </script>
+
+</body>
+</html>

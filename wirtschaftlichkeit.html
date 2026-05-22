@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wirtschaftlichkeit & Förderung – Kitzrettung</title>
+  <meta name="description" content="Lohnt sich eine eigene Wärmebilddrohne im Vergleich zum Dienstleister? Rechner mit Anschaffung, Förderung, Fläche pro Jahr und Kosten je Hektar." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a class="brand brand--logo" href="index.html">
+        <svg class="leaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 3C11.6 3 5 8.4 5 17c0 1.3.15 2.5.45 3.6.95-4.3 3.6-8.9 9.55-11.6-5.2 3.9-7.9 8.6-8.5 13H9c.5-1.2 1.2-2.3 2-3.3C19 17.4 22 10.6 21 3Z"/>
+        </svg>
+        <span class="logo-word">Kitzrettung<span class="dot-accent">.</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html" class="active">Rechner</a>
+        <a href="kontakt.html" class="nav-cta nav-cta--amber">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="subhero">
+      <div class="container">
+        <a class="subhero-back" href="rechner.html">← Alle Rechner</a>
+        <h1 class="subhero-title">Wirtschaftlichkeit & <span class="it">Förderung</span></h1>
+        <p class="subhero-lead">
+          Lohnt sich eine eigene Wärmebilddrohne oder ist der Dienstleister günstiger? Der Rechner vergleicht die Jahreskosten – inklusive Anschaffung, Förderung und Nutzungsdauer.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="fcalc-stage">
+          <aside class="calculator-side">
+            <div class="side-card side-highlight">
+              <h3>Förderung 2026</h3>
+              <p>In mehreren Bundesländern wird die Anschaffung gefördert – häufig bis zu 3.000&nbsp;€ je Drohne. Prüfe die genauen Bedingungen bei deinem Land bzw. deiner Bewilligungsstelle.</p>
+            </div>
+            <div class="side-card">
+              <h3>Richtwerte</h3>
+              <p>Dienstleister verlangen je nach Modell etwa 15–23&nbsp;€/ha. Eigene Kosten pro Hektar umfassen Akkuverschleiß, Wartung und Fahrt.</p>
+            </div>
+          </aside>
+
+          <div class="fcalc-card">
+            <div class="calc-hero">
+              <div class="calc-pattern"></div>
+              <div class="calc-hero-inner">
+                <div class="calc-tag">Anschaffung · Vergleich</div>
+                <div class="calc-title">Wirtschaftlichkeit</div>
+                <div class="calc-sub">Eigene Drohne gegen Dienstleister rechnen.</div>
+                <div class="calc-divider"></div>
+              </div>
+            </div>
+
+            <div class="fcalc-body">
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Fläche pro Jahr</span>
+                  <span class="fl-value"><span id="flaeche-val">50</span> ha</span>
+                </div>
+                <input type="range" id="flaeche" min="5" max="500" step="5" value="50" />
+                <div class="fl-minmax"><span>5 ha</span><span>500 ha</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Dienstleister-Kosten</span>
+                  <span class="fl-value"><span id="dienst-val">20</span> €/ha</span>
+                </div>
+                <input type="range" id="dienst" min="5" max="40" step="1" value="20" />
+                <div class="fl-minmax"><span>5 €/ha</span><span>40 €/ha</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Anschaffung Drohne</span>
+                  <span class="fl-value"><span id="ansch-val">5.000</span> €</span>
+                </div>
+                <input type="range" id="ansch" min="1000" max="15000" step="100" value="5000" />
+                <div class="fl-minmax"><span>1.000 €</span><span>15.000 €</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Förderung</span>
+                  <span class="fl-value"><span id="foerder-val">3.000</span> €</span>
+                </div>
+                <input type="range" id="foerder" min="0" max="5000" step="100" value="3000" />
+                <div class="fl-minmax"><span>0 €</span><span>5.000 €</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Nutzungsdauer</span>
+                  <span class="fl-value"><span id="jahre-val">5</span> Jahre</span>
+                </div>
+                <input type="range" id="jahre" min="1" max="10" step="1" value="5" />
+                <div class="fl-minmax"><span>1 Jahr</span><span>10 Jahre</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Eigene Kosten je Hektar</span>
+                  <span class="fl-value"><span id="eigen-val">5</span> €/ha</span>
+                </div>
+                <input type="range" id="eigen" min="0" max="15" step="1" value="5" />
+                <div class="fl-minmax"><span>0 €/ha</span><span>15 €/ha</span></div>
+              </div>
+
+              <div class="fresults">
+                <div class="fresult">
+                  <div class="fr-label" id="erg-label">Ersparnis pro Jahr</div>
+                  <div class="fr-value"><span id="res-ersparnis">350</span><span class="fr-unit"> €</span></div>
+                </div>
+                <div class="fresult secondary">
+                  <div class="fr-label">Eigene Drohne / Jahr</div>
+                  <div class="fr-value"><span id="res-eigen">650</span><span class="fr-unit"> €</span></div>
+                </div>
+                <div class="fresult secondary">
+                  <div class="fr-label">Dienstleister / Jahr</div>
+                  <div class="fr-value"><span id="res-dienst">1.000</span><span class="fr-unit"> €</span></div>
+                </div>
+              </div>
+
+              <p class="fnote">
+                Eigene Kosten/Jahr = (Anschaffung − Förderung) ÷ Nutzungsdauer + Fläche × Eigenkosten je ha. Ergebnis ohne Gewähr – Wartung, Versicherung und Ehrenamt sind nicht berücksichtigt.
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <div class="footer-copy">
+        <a href="mailto:webmaster@kitzrettungsrechner.de">webmaster@kitzrettungsrechner.de</a>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html">Rechner</a>
+        <a href="kontakt.html">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function eur(n) {
+      return n.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    }
+
+    function berechnen() {
+      const flaeche = parseFloat(document.getElementById('flaeche').value);
+      const dienstHa = parseFloat(document.getElementById('dienst').value);
+      const ansch = parseFloat(document.getElementById('ansch').value);
+      const foerder = parseFloat(document.getElementById('foerder').value);
+      const jahre = parseFloat(document.getElementById('jahre').value);
+      const eigenHa = parseFloat(document.getElementById('eigen').value);
+
+      const netto = Math.max(0, ansch - foerder);
+      const eigenJahr = netto / jahre + flaeche * eigenHa;
+      const dienstJahr = flaeche * dienstHa;
+      const diff = dienstJahr - eigenJahr;
+
+      document.getElementById('flaeche-val').textContent = eur(flaeche);
+      document.getElementById('dienst-val').textContent = eur(dienstHa);
+      document.getElementById('ansch-val').textContent = eur(ansch);
+      document.getElementById('foerder-val').textContent = eur(foerder);
+      document.getElementById('jahre-val').textContent = jahre;
+      document.getElementById('eigen-val').textContent = eur(eigenHa);
+
+      document.getElementById('res-eigen').textContent = eur(Math.round(eigenJahr));
+      document.getElementById('res-dienst').textContent = eur(Math.round(dienstJahr));
+      document.getElementById('erg-label').textContent = diff >= 0 ? 'Ersparnis pro Jahr' : 'Mehrkosten pro Jahr';
+      document.getElementById('res-ersparnis').textContent = eur(Math.abs(Math.round(diff)));
+    }
+
+    ['flaeche', 'dienst', 'ansch', 'foerder', 'jahre', 'eigen'].forEach(id =>
+      document.getElementById(id).addEventListener('input', berechnen)
+    );
+    berechnen();
+  </script>
+
+</body>
+</html>

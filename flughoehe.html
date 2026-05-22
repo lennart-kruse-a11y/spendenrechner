@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Optimale Flughöhe – Flugplanung Kitzrettung</title>
+  <meta name="description" content="Rechner für die empfohlene Flughöhe zur Erkennung eines Tieres im Wärmebild – abhängig von Zielgröße und Drohnenmodell." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a class="brand brand--logo" href="index.html">
+        <svg class="leaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 3C11.6 3 5 8.4 5 17c0 1.3.15 2.5.45 3.6.95-4.3 3.6-8.9 9.55-11.6-5.2 3.9-7.9 8.6-8.5 13H9c.5-1.2 1.2-2.3 2-3.3C19 17.4 22 10.6 21 3Z"/>
+        </svg>
+        <span class="logo-word">Kitzrettung<span class="dot-accent">.</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html" class="active">Rechner</a>
+        <a href="kontakt.html" class="nav-cta nav-cta--amber">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="subhero">
+      <div class="container">
+        <a class="subhero-back" href="rechner.html">← Alle Rechner</a>
+        <h1 class="subhero-title">Optimale <span class="it">Flughöhe</span></h1>
+        <p class="subhero-lead">
+          Um ein Tier im Wärmebild sicher zu erkennen, sollte es auf genügend Pixeln abgebildet werden. Stelle den Durchmesser des gesuchten Objekts und das Drohnenmodell ein, um eine empfohlene Flughöhe zu erhalten. Ein liegendes Rehkitz hat z.&nbsp;B. etwa 30&nbsp;cm Durchmesser.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="fcalc-stage">
+          <aside class="calculator-side">
+            <div class="side-card side-highlight">
+              <h3>Faustregel</h3>
+              <p>Je größer das Zielobjekt, desto höher darfst du fliegen. Ein kleineres Objekt verlangt eine niedrigere Flughöhe für eine ausreichende Auflösung.</p>
+            </div>
+            <div class="side-card">
+              <h3>Hinweis</h3>
+              <p>Alle Werte sind Näherungswerte und können je nach Bedingungen am Einsatztag abweichen.</p>
+            </div>
+          </aside>
+
+          <div class="fcalc-card">
+            <div class="calc-hero">
+              <div class="calc-pattern"></div>
+              <div class="calc-hero-inner">
+                <div class="calc-tag">Wärmebild · Flugplanung</div>
+                <div class="calc-title">Flughöhe</div>
+                <div class="calc-sub">Empfohlene Höhe abhängig von Zielgröße und Modell.</div>
+                <div class="calc-divider"></div>
+              </div>
+            </div>
+
+            <div class="fcalc-body">
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Durchmesser Zielobjekt</span>
+                  <span class="fl-value"><span id="durch-val">30</span> cm</span>
+                </div>
+                <input type="range" id="durch" min="2" max="100" step="1" value="30" />
+                <div class="fl-minmax"><span>2 cm</span><span>100 cm</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Wärmebilddrohne / -kamera</span>
+                </div>
+                <div class="fradio-group" id="drohne-group"></div>
+              </div>
+
+              <div class="fresults">
+                <div class="fresult">
+                  <div class="fr-label">Empfohlene Flughöhe</div>
+                  <div class="fr-value"><span id="res-hoehe">57</span><span class="fr-unit"> m</span></div>
+                </div>
+                <div class="fresult secondary">
+                  <div class="fr-label">Bodenauflösung dabei</div>
+                  <div class="fr-value"><span id="res-gsd">7,5</span><span class="fr-unit"> cm/px</span></div>
+                </div>
+              </div>
+
+              <p class="fnote">
+                Empfohlene Flughöhe = (Durchmesser ÷ 4) ÷ Faktor des Modells. Das Zielobjekt wird dabei auf etwa 4&nbsp;Pixeln abgebildet. Für eine feinere Erkennung tiefer fliegen.
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <div class="footer-copy">
+        <a href="mailto:webmaster@kitzrettungsrechner.de">webmaster@kitzrettungsrechner.de</a>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html">Rechner</a>
+        <a href="kontakt.html">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const DROHNEN = [
+      { name: 'DJI M2EA',     factor: 0.1319 },
+      { name: 'DJI M3T',      factor: 0.1319 },
+      { name: 'DJI M3TA',     factor: 0.088  },
+      { name: 'DJI M4T/M4TD', factor: 0.1    },
+      { name: 'DJI M30T',     factor: 0.1319 },
+      { name: 'DJI H20T',     factor: 0.0889 },
+      { name: 'DJI H30T',     factor: 0.05   }
+    ];
+    let aktiv = 1; // DJI M3T
+
+    function deNum(n, dec) {
+      return n.toLocaleString('de-DE', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    }
+
+    function renderDrohnen() {
+      const g = document.getElementById('drohne-group');
+      g.innerHTML = '';
+      DROHNEN.forEach((d, i) => {
+        const lbl = document.createElement('label');
+        lbl.className = 'fradio' + (i === aktiv ? ' checked' : '');
+        lbl.innerHTML = '<input type="radio" name="drohne" value="' + i + '"' + (i === aktiv ? ' checked' : '') + ' />' + d.name;
+        lbl.querySelector('input').addEventListener('change', () => { aktiv = i; renderDrohnen(); berechnen(); });
+        g.appendChild(lbl);
+      });
+    }
+
+    function berechnen() {
+      const durch = parseFloat(document.getElementById('durch').value);
+      const factor = DROHNEN[aktiv].factor;
+
+      const hoehe = Math.round((durch / 4) / factor);
+      const gsd = Math.round((durch / 4) * 10) / 10;
+
+      document.getElementById('durch-val').textContent = durch;
+      document.getElementById('res-hoehe').textContent = deNum(hoehe, 0);
+      document.getElementById('res-gsd').textContent = deNum(gsd, 1);
+    }
+
+    document.getElementById('durch').addEventListener('input', berechnen);
+    renderDrohnen();
+    berechnen();
+  </script>
+
+</body>
+</html>

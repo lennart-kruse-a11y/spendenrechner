@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flächenleistung & Einsatzdauer – Kitzrettung</title>
+  <meta name="description" content="Rechner für Flächenleistung und Einsatzdauer beim Suchflug: benötigte Zeit, Anzahl Akkus und Hektar pro Stunde – abhängig von Fläche, Geschwindigkeit und Bahnabstand." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container nav">
+      <a class="brand brand--logo" href="index.html">
+        <svg class="leaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M21 3C11.6 3 5 8.4 5 17c0 1.3.15 2.5.45 3.6.95-4.3 3.6-8.9 9.55-11.6-5.2 3.9-7.9 8.6-8.5 13H9c.5-1.2 1.2-2.3 2-3.3C19 17.4 22 10.6 21 3Z"/>
+        </svg>
+        <span class="logo-word">Kitzrettung<span class="dot-accent">.</span></span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html" class="active">Rechner</a>
+        <a href="kontakt.html" class="nav-cta nav-cta--amber">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <section class="subhero">
+      <div class="container">
+        <a class="subhero-back" href="rechner.html">← Alle Rechner</a>
+        <h1 class="subhero-title">Flächenleistung & <span class="it">Einsatzdauer</span></h1>
+        <p class="subhero-lead">
+          Wie lange dauert der Suchflug, wie viele Akkus brauchst du und wie viel Fläche schaffst du pro Stunde? Stelle Fläche, Fluggeschwindigkeit, Bahnabstand und Akku-Flugzeit ein.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="fcalc-stage">
+          <aside class="calculator-side">
+            <div class="side-card side-highlight">
+              <h3>Reiner Flug vs. Praxis</h3>
+              <p>Die Werte gelten für den reinen Suchflug. Anfahrt, Aufbau, Kitzsicherung und Pausen verlängern die tatsächliche Einsatzzeit in der Praxis oft um das Doppelte.</p>
+            </div>
+            <div class="side-card">
+              <h3>Richtwerte</h3>
+              <p>Typisch sind 10–18&nbsp;km/h (≈&nbsp;3–5&nbsp;m/s), ein Bahnabstand um 18&nbsp;m und 20–45&nbsp;Minuten Flugzeit pro Akku.</p>
+            </div>
+          </aside>
+
+          <div class="fcalc-card">
+            <div class="calc-hero">
+              <div class="calc-pattern"></div>
+              <div class="calc-hero-inner">
+                <div class="calc-tag">Suchflug · Planung</div>
+                <div class="calc-title">Flächenleistung</div>
+                <div class="calc-sub">Zeit, Akkus und Hektar pro Stunde abschätzen.</div>
+                <div class="calc-divider"></div>
+              </div>
+            </div>
+
+            <div class="fcalc-body">
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Fläche</span>
+                  <span class="fl-value"><span id="flaeche-val">5,0</span> ha</span>
+                </div>
+                <input type="range" id="flaeche" min="0.5" max="100" step="0.5" value="5" />
+                <div class="fl-minmax"><span>0,5 ha</span><span>100 ha</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Fluggeschwindigkeit</span>
+                  <span class="fl-value"><span id="speed-val">4,0</span> m/s</span>
+                </div>
+                <input type="range" id="speed" min="1" max="8" step="0.1" value="4" />
+                <div class="fl-minmax"><span>1 m/s</span><span>8 m/s</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Bahnabstand</span>
+                  <span class="fl-value"><span id="bahn-val">18</span> m</span>
+                </div>
+                <input type="range" id="bahn" min="5" max="40" step="1" value="18" />
+                <div class="fl-minmax"><span>5 m</span><span>40 m</span></div>
+              </div>
+
+              <div class="ffield">
+                <div class="ffield-label">
+                  <span class="fl-name">Flugzeit pro Akku</span>
+                  <span class="fl-value"><span id="akku-val">25</span> min</span>
+                </div>
+                <input type="range" id="akku" min="10" max="45" step="1" value="25" />
+                <div class="fl-minmax"><span>10 min</span><span>45 min</span></div>
+              </div>
+
+              <div class="fresults">
+                <div class="fresult">
+                  <div class="fr-label">Reine Flugzeit</div>
+                  <div class="fr-value"><span id="res-zeit">11,6</span><span class="fr-unit"> min</span></div>
+                </div>
+                <div class="fresult secondary">
+                  <div class="fr-label">Benötigte Akkus</div>
+                  <div class="fr-value"><span id="res-akkus">1</span></div>
+                </div>
+                <div class="fresult secondary">
+                  <div class="fr-label">Flächenleistung</div>
+                  <div class="fr-value"><span id="res-leistung">25,9</span><span class="fr-unit"> ha/h</span></div>
+                </div>
+              </div>
+
+              <p class="fnote">
+                Annahme: lückenlose Suchbahnen. Flugstrecke = Fläche ÷ Bahnabstand (<span id="res-strecke">2,8</span>&nbsp;km), Flugzeit = Strecke ÷ Geschwindigkeit. Praxiszeit inkl. Auf-/Abbau eher das Doppelte.
+              </p>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-shell">
+      <div class="footer-copy">
+        <a href="mailto:webmaster@kitzrettungsrechner.de">webmaster@kitzrettungsrechner.de</a>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Start</a>
+        <a href="rechner.html">Rechner</a>
+        <a href="kontakt.html">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function deNum(n, dec) {
+      return n.toLocaleString('de-DE', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    }
+
+    function berechnen() {
+      const ha = parseFloat(document.getElementById('flaeche').value);
+      const v = parseFloat(document.getElementById('speed').value);
+      const bahn = parseFloat(document.getElementById('bahn').value);
+      const akku = parseFloat(document.getElementById('akku').value);
+
+      const strecke_m = (ha * 10000) / bahn;
+      const zeit_min = strecke_m / v / 60;
+      const leistung = (v * bahn * 3600) / 10000;
+      const akkus = Math.max(1, Math.ceil(zeit_min / akku));
+
+      document.getElementById('flaeche-val').textContent = deNum(ha, 1);
+      document.getElementById('speed-val').textContent = deNum(v, 1);
+      document.getElementById('bahn-val').textContent = deNum(bahn, 0);
+      document.getElementById('akku-val').textContent = deNum(akku, 0);
+
+      document.getElementById('res-zeit').textContent = deNum(zeit_min, 1);
+      document.getElementById('res-akkus').textContent = akkus;
+      document.getElementById('res-leistung').textContent = deNum(leistung, 1);
+      document.getElementById('res-strecke').textContent = deNum(strecke_m / 1000, 1);
+    }
+
+    ['flaeche', 'speed', 'bahn', 'akku'].forEach(id =>
+      document.getElementById(id).addEventListener('input', berechnen)
+    );
+    berechnen();
+  </script>
+
+</body>
+</html>
